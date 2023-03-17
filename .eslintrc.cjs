@@ -23,7 +23,12 @@ module.exports = {
     'src/types.ts',
     'src/shims.d.ts',
     'src/client.d.ts',
+    'pnpm-lock.yaml'
   ],
+  globals: {
+    defineOptions: 'readonly',
+    defineModel: 'readonly',
+  },
   rules: {
     // override/add rules settings here, such as:
     'vue/no-unused-vars': 'warn',
