@@ -23,7 +23,8 @@ module.exports = {
     'src/types.ts',
     'src/shims.d.ts',
     'src/client.d.ts',
-    'pnpm-lock.yaml'
+    'pnpm-lock.yaml',
+    'index.html'
   ],
   globals: {
     defineOptions: 'readonly',

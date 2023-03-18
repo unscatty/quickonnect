@@ -1,30 +1,17 @@
-<script setup lang="ts">
-defineOptions({
-  name: 'IndexPage',
-})
-
-const { t } = useI18n()
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div>
-    <div text-4xl>
-      <div i-carbon-campsite inline-block />
+  <div class="mx-auto px-4 sm:px-6 md:px-8">
+    <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
+  </div>
+  <div class="mx-auto px-4 sm:px-6 md:px-8">
+    <!-- Replace with your content -->
+    <div class="py-4">
+      <div class="border-4 border-dashed border-gray-200 rounded-lg h-96">
+        <p>hola</p>
+      </div>
     </div>
-    <p>
-      <a
-        rel="noreferrer"
-        href="https://github.com/antfu/vitesse"
-        target="_blank"
-      >
-        Vitesse
-      </a>
-    </p>
-    <p>
-      <em text-sm opacity-75>{{ t('intro.desc') }}</em>
-    </p>
-
-    <div py-4 />
+    <!-- /End replace -->
   </div>
 </template>
 
