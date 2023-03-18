@@ -8,6 +8,7 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
+import { presetForms } from '@julr/unocss-preset-forms'
 
 export default defineConfig({
   shortcuts: [
@@ -29,6 +30,7 @@ export default defineConfig({
         mono: 'DM Mono',
       },
     }),
+    presetForms()
   ],
   transformers: [
     transformerDirectives(),
