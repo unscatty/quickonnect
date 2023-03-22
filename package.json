@@ -16,12 +16,18 @@
     "postinstall": "npx simple-git-hooks"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.10",
     "@headlessui/vue": "^1.7.12",
     "@iconify-json/heroicons": "^1.1.10",
     "@julr/unocss-preset-forms": "^0.0.3",
+    "@nhost/apollo": "^5.1.1",
+    "@nhost/vue": "^1.13.17",
     "@unocss/reset": "^0.50.6",
+    "@vue/apollo-composable": "4.0.0-beta.4",
     "@vueuse/core": "^9.13.0",
     "@vueuse/head": "^1.1.23",
+    "graphql": "^16.6.0",
+    "graphql-tag": "^2.12.6",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.33",
     "vue": "^3.2.47",
