@@ -6,8 +6,6 @@ const nhost = new NhostClient({
   region: import.meta.env.VITE_NHOST_REGION
 })
 
-export const install: UserModule = ({ app, isClient }) => {
-  if (isClient) {
-    app.use(nhost)
-  }
+export const install: UserModule = ({ app }) => {
+  app.use(nhost)
 }
