@@ -1,20 +1,70 @@
 <script setup lang="ts">
-import { useSignUpEmailPassword } from '@nhost/vue'
+import {
+  useProviderLink,
+  useSignInEmailPassword,
+  useSignUpEmailPassword,
+} from '@nhost/vue'
+const { t, locale } = useI18n()
+const { google, github } = useProviderLink()
 
-const { signUpEmailPassword, needsEmailVerification } = useSignUpEmailPassword()
+const props = defineProps({
+  isSignIn: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
+})
+
+const emit = defineEmits(['update:isSignIn'])
+
+/**
+ * Change whether user wants to sign up or sign in
+ */
+const isSignIn = useVModel(props, 'isSignIn', emit)
+
+const actionMessage = computed<Parameters<typeof t>[0]>(() =>
+  isSignIn.value ? 'auth.sign-in-message' : 'auth.sign-up-message'
+)
+const oppositeActionMessage = computed(() =>
+  isSignIn.value ? 'auth.sign-up-message' : 'auth.sign-in-message'
+)
+
+const signUpEmailPassword = useSignUpEmailPassword({ locale })
+const signInEmailPassword = useSignInEmailPassword()
 const router = useRouter()
 const firstName = ref('')
 const lastName = ref('')
 const email = ref('')
 const password = ref('')
 
-const handleSubmit = async (event: Event) => {
-  event.preventDefault()
-  const { isSuccess } = await signUpEmailPassword(email, password, {
-    metadata: { firstName, lastName },
-  })
-  if (isSuccess) router.push('/')
+const displayName = computed(() => firstName.value + ' ' + lastName.value)
+
+const handleSignUp = async () => {
+  const signUpResult = await signUpEmailPassword.signUpEmailPassword(
+    email,
+    password,
+    {
+      metadata: { firstName, lastName },
+      displayName,
+      locale,
+    }
+  )
+
+  if (signUpResult.isSuccess) router.push('/')
 }
+
+const handleSignIn = async () => {
+  const signInResult = await signInEmailPassword.signInEmailPassword(
+    email,
+    password
+  )
+
+  if (signInResult.isSuccess) router.push('/')
+}
+
+const handleSubmit = computed(() =>
+  isSignIn.value ? handleSignIn : handleSignUp
+)
 </script>
 
 <template>
@@ -26,13 +76,25 @@ const handleSubmit = async (event: Event) => {
         alt="Workflow"
       />
       <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
-        Sign in to your account
+        {{ t('auth.title', { action: t(actionMessage) }) }}
       </h2>
-      <p class="mt-2 text-sm text-gray-600">
-        Or
-        {{ ' ' }}
-        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-          start your 14-day free trial
+      <p
+        class="flex justify-between sm:justify-inherit mt-2 text-sm text-gray-600"
+      >
+        <span class="sm:mr-2">{{
+          t(
+            isSignIn
+              ? 'auth.do-not-have-an-account'
+              : 'auth.already-have-an-account'
+          )
+        }}</span>
+        <!-- Signup/Signin instead -->
+        <a
+          href="#"
+          class="font-medium text-indigo-600 hover:text-indigo-500"
+          @click="isSignIn = !isSignIn"
+        >
+          {{ t('auth.action-instead', { action: t(oppositeActionMessage) }) }}
         </a>
       </p>
     </div>
@@ -40,25 +102,40 @@ const handleSubmit = async (event: Event) => {
     <div class="mt-8">
       <div>
         <div>
-          <p class="text-sm font-medium text-gray-700">Sign in with</p>
+          <p class="text-sm font-medium text-gray-700">
+            {{ t('auth.action-with', { action: t(actionMessage) }) }}
+          </p>
 
           <div class="mt-1 grid grid-cols-3 gap-3">
             <div>
               <a
-                href="#"
+                :href="google"
                 class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
               >
-                <span class="sr-only">Sign in with Facebook</span>
+                <span class="sr-only">Sign in with Google</span>
+                <!-- width="256"
+                height="262" -->
                 <svg
                   class="w-5 h-5"
                   aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 256 262"
                 >
                   <path
-                    fill-rule="evenodd"
-                    d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z"
-                    clip-rule="evenodd"
+                    fill="#4285F4"
+                    d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622l38.755 30.023l2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
+                  />
+                  <path
+                    fill="#34A853"
+                    d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055c-34.523 0-63.824-22.773-74.269-54.25l-1.531.13l-40.298 31.187l-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
+                  />
+                  <path
+                    fill="#FBBC05"
+                    d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82c0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
+                  />
+                  <path
+                    fill="#EB4335"
+                    d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0C79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
                   />
                 </svg>
               </a>
@@ -66,26 +143,7 @@ const handleSubmit = async (event: Event) => {
 
             <div>
               <a
-                href="#"
-                class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-              >
-                <span class="sr-only">Sign in with Twitter</span>
-                <svg
-                  class="w-5 h-5"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"
-                  />
-                </svg>
-              </a>
-            </div>
-
-            <div>
-              <a
-                href="#"
+                :href="github"
                 class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
               >
                 <span class="sr-only">Sign in with GitHub</span>
@@ -111,26 +169,39 @@ const handleSubmit = async (event: Event) => {
             <div class="w-full border-t border-gray-300" />
           </div>
           <div class="relative flex justify-center text-sm">
-            <span class="px-2 bg-white text-gray-500"> Or continue with </span>
+            <span class="px-2 bg-white text-gray-500">{{
+              t('auth.or-continue-with')
+            }}</span>
           </div>
         </div>
       </div>
 
-      <p v-if="needsEmailVerification">
+      <p v-show="signUpEmailPassword.needsEmailVerification">
         Please check your mailbox and follow the verification link to verify
         your email.
+      </p>
+
+      <p v-if="signUpEmailPassword.isError" class="text-red-400">
+        {{ signUpEmailPassword.error.value?.message }}
+      </p>
+      <p v-if="signInEmailPassword.isError" class="text-red-400">
+        {{ signInEmailPassword.error.value?.message }}
       </p>
 
       <div class="mt-6">
         <form action="#" method="POST" class="space-y-6">
           <!-- Full name -->
-          <div class="flex gap-x-4 gap-y-6 flex-col" sm="flex-row">
+          <div
+            v-show="!isSignIn"
+            class="flex gap-x-4 gap-y-6 flex-col"
+            sm="flex-row"
+          >
             <div>
               <label
                 for="firstname"
                 class="block text-sm font-medium text-gray-700"
               >
-                First name
+                {{ t('auth.form.first-name') }}
               </label>
               <div class="mt-1">
                 <input
@@ -148,7 +219,7 @@ const handleSubmit = async (event: Event) => {
                 for="lastname"
                 class="block text-sm font-medium text-gray-700"
               >
-                Last name
+                {{ t('auth.form.last-name') }}
               </label>
               <div class="mt-1">
                 <input
@@ -164,7 +235,7 @@ const handleSubmit = async (event: Event) => {
           </div>
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700">
-              Email address
+              {{ t('auth.form.email') }}
             </label>
             <div class="mt-1">
               <input
@@ -184,7 +255,7 @@ const handleSubmit = async (event: Event) => {
               for="password"
               class="block text-sm font-medium text-gray-700"
             >
-              Password
+              {{ t('auth.form.password') }}
             </label>
             <div class="mt-1">
               <input
@@ -208,7 +279,7 @@ const handleSubmit = async (event: Event) => {
                 class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
               />
               <label for="remember-me" class="ml-2 block text-sm text-gray-900">
-                Remember me
+                {{ t('auth.form.remember-me') }}
               </label>
             </div>
 
@@ -217,7 +288,7 @@ const handleSubmit = async (event: Event) => {
                 href="#"
                 class="font-medium text-indigo-600 hover:text-indigo-500"
               >
-                Forgot your password?
+                {{ t('auth.form.forgot-password') }}
               </a>
             </div>
           </div>
@@ -225,9 +296,9 @@ const handleSubmit = async (event: Event) => {
           <div>
             <button
               class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              @click="handleSubmit"
+              @click.prevent="handleSubmit"
             >
-              Sign in
+              {{ t(actionMessage) }}
             </button>
           </div>
         </form>

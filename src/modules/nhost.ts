@@ -1,10 +1,5 @@
-import { NhostClient } from '@nhost/vue'
 import { type UserModule } from '~/types'
-
-const nhost = new NhostClient({
-  subdomain: import.meta.env.VITE_NHOST_SUBDOMAIN,
-  region: import.meta.env.VITE_NHOST_REGION
-})
+import nhost from '~/services/nhost-client'
 
 export const install: UserModule = ({ app }) => {
   app.use(nhost)

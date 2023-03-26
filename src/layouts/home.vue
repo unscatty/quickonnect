@@ -9,6 +9,9 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue'
+import nhost from '~/services/nhost-client';
+// import
+const router = useRouter()
 
 const sidebarOpen = ref(false)
 
@@ -23,7 +26,18 @@ const navigation = [
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
   { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
+  {
+    name: 'Sign out',
+    href: '#',
+    action: async () => {
+      const { error } = await nhost.auth.signOut()
+      // await signOut()
+
+      if (!error) {
+        router.push('/auth/login')
+      }
+    },
+  },
 ]
 </script>
 
@@ -286,6 +300,7 @@ const userNavigation = [
                       active ? 'bg-gray-100' : '',
                       'block px-4 py-2 text-sm text-gray-700',
                     ]"
+                    @click="item.action"
                     >{{ item.name }}</a
                   >
                 </MenuItem>
