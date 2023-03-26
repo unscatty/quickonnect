@@ -34,7 +34,7 @@ const userNavigation = [
       // await signOut()
 
       if (!error) {
-        router.push('/auth/login')
+        router.push('/auth')
       }
     },
   },

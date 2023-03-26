@@ -13,7 +13,6 @@ declare module '@vue/runtime-core' {
     README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SignIn: typeof import('./components/auth/SignIn.vue')['default']
-    SignUp: typeof import('./components/auth/SignUp.vue')['default']
+    SignUpSignIn: typeof import('./components/auth/SignUpSignIn.vue')['default']
   }
 }

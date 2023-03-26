@@ -3,7 +3,7 @@ const isSignIn = ref(true)
 </script>
 
 <template>
-  <SignUp v-model:is-sign-in="isSignIn" />
+  <SignUpSignIn v-model:is-sign-in="isSignIn" />
 </template>
 
 <route lang="yaml">

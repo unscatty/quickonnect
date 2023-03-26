@@ -7,7 +7,7 @@ import GuardedRoute from './types/guarded-route'
 const guardedRoutes: GuardedRoute[] = [
   {
     path: '/',
-    beforeEnter: isAuthenticatedGuard('/auth/login'),
+    beforeEnter: isAuthenticatedGuard('/auth'),
   },
 ]
 
