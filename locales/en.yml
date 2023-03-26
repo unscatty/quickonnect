@@ -11,4 +11,20 @@ intro:
   hi: Hi, {name}!
   aka: Also known as
   whats-your-name: What's your name?
+auth:
+  title: '{action} to your account'
+  sign-in-message: Sign in
+  sign-up-message: Sign up
+  already-have-an-account: Already have an account?
+  do-not-have-an-account: Do not have an account?
+  action-instead: '{action} instead'
+  action-with: '{action} with'
+  or-continue-with: Or continue with
+  form:
+    first-name: First name
+    last-name: Last name
+    email: Email
+    password: Password
+    remember-me: Remember me
+    forgot-password: Forgot your password?
 not-found: Not found

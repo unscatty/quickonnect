@@ -11,4 +11,20 @@ intro:
   hi: ¡Hola, {name}!
   aka: También conocido como
   whats-your-name: ¿Cómo te llamas?
+auth:
+  title: '{action}'
+  sign-in-message: Iniciar sesión
+  sign-up-message: Registrarse
+  already-have-an-account: ¿Ya tienes una cuenta?
+  do-not-have-an-account: ¿No tienes una cuenta?
+  action-instead: '{action}'
+  action-with: '{action} con'
+  or-continue-with: O continua con
+  form:
+    first-name: Nombre
+    last-name: Apellido
+    email: Email
+    password: Contraseña
+    remember-me: Mantener sesión iniciada
+    forgot-password: ¿Olvidaste tu contraseña?
 not-found: No se ha encontrado
