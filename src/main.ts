@@ -9,7 +9,10 @@ import '@unocss/reset/tailwind.css'
 import './styles/main.css'
 import 'uno.css'
 
-const routes = setupLayouts(generatedRoutes)
+import extendedRoutes from '~/routes/extended'
+import mergeExtendedRoutes from '~/routes/utils/extend-guarded-routes'
+
+const routes = setupLayouts(mergeExtendedRoutes(generatedRoutes, extendedRoutes))
 
 // https://github.com/antfu/vite-ssg
 export const createApp = ViteSSG(
@@ -17,8 +20,11 @@ export const createApp = ViteSSG(
   { routes, base: import.meta.env.BASE_URL },
   (ctx) => {
     // install all modules under `modules/`
-    Object.values(import.meta.glob<{ install: UserModule }>('./modules/*.ts', { eager: true }))
-      .forEach(i => i.install?.(ctx))
+    Object.values(
+      import.meta.glob<{ install: UserModule }>('./modules/*.ts', {
+        eager: true,
+      })
+    ).forEach((i) => i.install?.(ctx))
     // ctx.app.use(Previewer)
-  },
+  }
 )
