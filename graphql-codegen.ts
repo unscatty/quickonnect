@@ -5,9 +5,10 @@ const config: CodegenConfig = {
   schema: './schema.graphql',
   documents: [
     'src/components/**/*.vue',
+    'src/composables/**/*.{ts,js,tsx,jsx}',
     'src/layouts/**/*.vue',
     'src/pages/**/*.vue',
-    'src/graphql/**/**.graphql',
+    'src/graphql/**/**.{ts,js,tsx,jsx}',
   ],
   generates: {
     'src/graphql/generated/': {
