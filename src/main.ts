@@ -9,10 +9,14 @@ import '@unocss/reset/tailwind.css'
 import './styles/main.css'
 import 'uno.css'
 
-import extendedRoutes from '~/routes/extended'
-import mergeExtendedRoutes from '~/routes/utils/extend-guarded-routes'
+import guardedRoutes from '~/routes/guarded'
+import mergeGuardedRoutes from '~/routes/utils/merge-guarded-routes'
 
-const routes = setupLayouts(mergeExtendedRoutes(generatedRoutes, extendedRoutes))
+import extendedRoutes from '~/routes/extended'
+
+const routes = setupLayouts(
+  mergeGuardedRoutes(generatedRoutes.concat(extendedRoutes), guardedRoutes)
+)
 
 // https://github.com/antfu/vite-ssg
 export const createApp = ViteSSG(

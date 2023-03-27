@@ -8,7 +8,7 @@ import GuardedRoute from '../types/guarded-route'
  * @param guardedRoutes Routes with guards and meta info
  * @returns Routes merged with guards and meta info
  */
-const mergeExtendedRoutes = (
+const mergeGuardedRoutes = (
   routes: RouteRecordRaw[],
   guardedRoutes: GuardedRoute[]
 ): RouteRecordRaw[] => {
@@ -29,4 +29,4 @@ const mergeExtendedRoutes = (
   return routes
 }
 
-export default mergeExtendedRoutes
+export default mergeGuardedRoutes

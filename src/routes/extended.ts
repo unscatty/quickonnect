@@ -1,14 +1,12 @@
-import { isAuthenticatedGuard } from './guards'
-import GuardedRoute from './types/guarded-route'
+import { RouteRecordRaw } from 'vue-router'
+import { signoutGuard } from './guards/sign-out'
 
-/**
- * Routes with guards/meta-info
- */
-const guardedRoutes: GuardedRoute[] = [
+const extendedRoutes: RouteRecordRaw[] = [
   {
-    path: '/',
-    beforeEnter: isAuthenticatedGuard('/auth'),
+    path: '/sign-out',
+    component: import('~/components/Empty.vue'),
+    beforeEnter: signoutGuard('/')
   },
 ]
 
-export default guardedRoutes
+export default extendedRoutes
