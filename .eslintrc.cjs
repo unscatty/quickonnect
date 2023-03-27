@@ -14,6 +14,17 @@ module.exports = {
     sourceType: 'module',
     parser: '@typescript-eslint/parser',
   },
+  overrides: [
+    {
+      files: ['*.graphql'],
+      parser: '@graphql-eslint/eslint-plugin',
+      parserOptions: {
+        schema: './schema.graphql'
+      },
+      plugins: ['@graphql-eslint'],
+      extends: 'plugin:@graphql-eslint/schema-recommended'
+    }
+  ],
   plugins: ['vue', '@typescript-eslint', 'prettier'],
   ignorePatterns: [
     'dist/*',
@@ -24,7 +35,8 @@ module.exports = {
     'src/shims.d.ts',
     'src/client.d.ts',
     'pnpm-lock.yaml',
-    'index.html'
+    'index.html',
+    'schema.graphql'
   ],
   globals: {
     defineOptions: 'readonly',
