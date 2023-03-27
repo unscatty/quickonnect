@@ -9,9 +9,6 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue'
-import nhost from '~/services/nhost-client';
-// import
-const router = useRouter()
 
 const sidebarOpen = ref(false)
 
@@ -24,19 +21,10 @@ const navigation = [
   { name: 'Reports', href: '#', icon: 'i-heroicons:chart-bar', current: false },
 ]
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
+  { name: 'Your Profile', to: '/profile' },
   {
     name: 'Sign out',
-    href: '#',
-    action: async () => {
-      const { error } = await nhost.auth.signOut()
-      // await signOut()
-
-      if (!error) {
-        router.push('/auth')
-      }
-    },
+    to: '/sign-out',
   },
 ]
 </script>
@@ -294,15 +282,16 @@ const userNavigation = [
                   :key="item.name"
                   v-slot="{ active }"
                 >
-                  <a
-                    :href="item.href"
+                  <RouterLink
+                    :to="item.to"
                     :class="[
                       active ? 'bg-gray-100' : '',
                       'block px-4 py-2 text-sm text-gray-700',
                     ]"
                     @click="item.action"
-                    >{{ item.name }}</a
                   >
+                    {{ item.name }}
+                  </RouterLink>
                 </MenuItem>
               </MenuItems>
             </transition>
@@ -313,7 +302,9 @@ const userNavigation = [
 
     <main class="flex-1">
       <div class="py-6">
-        <RouterView />
+        <div class="mx-auto px-4 sm:px-6 md:px-8">
+          <RouterView />
+        </div>
       </div>
     </main>
   </div>
