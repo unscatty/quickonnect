@@ -2,7 +2,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: 'http://localhost:8080/v1/graphql',
+  schema: './schema.graphql',
   documents: [
     'src/components/**/*.vue',
     'src/layouts/**/*.vue',
@@ -10,12 +10,11 @@ const config: CodegenConfig = {
     'src/graphql/**/**.graphql',
   ],
   generates: {
-    'src/graphql/generated': {
+    'src/graphql/generated/': {
       preset: 'client',
       plugins: [],
     },
   },
-  watch: true,
 }
 
 export default config

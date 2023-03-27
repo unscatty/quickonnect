@@ -16,6 +16,7 @@ import LinkAttributes from 'markdown-it-link-attributes'
 import Unocss from 'unocss/vite'
 import Shiki from 'markdown-it-shiki'
 import VueMacros from 'unplugin-vue-macros'
+import Codegen from 'vite-plugin-graphql-codegen'
 import {
   getRemoteSchema,
   printSchemaToFile,
@@ -173,6 +174,10 @@ export default defineConfig(async ({ mode }) => {
       // https://github.com/webfansplz/vite-plugin-vue-inspector
       Inspector({
         toggleButtonVisibility: 'never',
+      }),
+      Codegen({
+        configFilePathOverride: path.resolve(__dirname, 'graphql-codegen.ts'),
+        enableWatcher: true,
       }),
     ],
 
