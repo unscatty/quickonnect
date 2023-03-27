@@ -2932,8 +2932,47 @@ type link_groups {
   created_at: timestamptz
   description: String
   id: uuid!
+
+  """An array relationship"""
+  links(
+    """distinct select on columns"""
+    distinct_on: [links_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [links_order_by!]
+
+    """filter the rows returned"""
+    where: links_bool_exp
+  ): [links!]!
+
+  """An aggregate relationship"""
+  links_aggregate(
+    """distinct select on columns"""
+    distinct_on: [links_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [links_order_by!]
+
+    """filter the rows returned"""
+    where: links_bool_exp
+  ): links_aggregate!
   name: String!
   updated_at: timestamptz
+
+  """An object relationship"""
+  user: users!
   user_id: uuid!
 }
 
@@ -2964,8 +3003,11 @@ input link_groups_bool_exp {
   created_at: timestamptz_comparison_exp
   description: String_comparison_exp
   id: uuid_comparison_exp
+  links: links_bool_exp
+  links_aggregate: links_aggregate_bool_exp
   name: String_comparison_exp
   updated_at: timestamptz_comparison_exp
+  user: users_bool_exp
   user_id: uuid_comparison_exp
 }
 
@@ -2986,8 +3028,10 @@ input link_groups_insert_input {
   created_at: timestamptz
   description: String
   id: uuid
+  links: links_arr_rel_insert_input
   name: String
   updated_at: timestamptz
+  user: users_obj_rel_insert_input
   user_id: uuid
 }
 
@@ -3023,6 +3067,16 @@ type link_groups_mutation_response {
 }
 
 """
+input type for inserting object relation for remote table "link_groups"
+"""
+input link_groups_obj_rel_insert_input {
+  data: link_groups_insert_input!
+
+  """upsert condition"""
+  on_conflict: link_groups_on_conflict
+}
+
+"""
 on_conflict condition type for table "link_groups"
 """
 input link_groups_on_conflict {
@@ -3036,8 +3090,10 @@ input link_groups_order_by {
   created_at: order_by
   description: order_by
   id: order_by
+  links_aggregate: links_aggregate_order_by
   name: order_by
   updated_at: order_by
+  user: users_order_by
   user_id: order_by
 }
 
@@ -3135,11 +3191,17 @@ input link_groups_updates {
 type links {
   created_at: timestamptz!
   id: Int!
+
+  """An object relationship"""
+  link_group: link_groups
   link_group_id: uuid
   name: String
   type: String
   updated_at: timestamptz!
   url: String!
+
+  """An object relationship"""
+  user: users!
   user_id: uuid!
 }
 
@@ -3149,6 +3211,17 @@ aggregated selection of "links"
 type links_aggregate {
   aggregate: links_aggregate_fields
   nodes: [links!]!
+}
+
+input links_aggregate_bool_exp {
+  count: links_aggregate_bool_exp_count
+}
+
+input links_aggregate_bool_exp_count {
+  arguments: [links_select_column!]
+  distinct: Boolean
+  filter: links_bool_exp
+  predicate: Int_comparison_exp!
 }
 
 """
@@ -3168,9 +3241,43 @@ type links_aggregate_fields {
   variance: links_variance_fields
 }
 
+"""
+order by aggregate values of table "links"
+"""
+input links_aggregate_order_by {
+  avg: links_avg_order_by
+  count: order_by
+  max: links_max_order_by
+  min: links_min_order_by
+  stddev: links_stddev_order_by
+  stddev_pop: links_stddev_pop_order_by
+  stddev_samp: links_stddev_samp_order_by
+  sum: links_sum_order_by
+  var_pop: links_var_pop_order_by
+  var_samp: links_var_samp_order_by
+  variance: links_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "links"
+"""
+input links_arr_rel_insert_input {
+  data: [links_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: links_on_conflict
+}
+
 """aggregate avg on columns"""
 type links_avg_fields {
   id: Float
+}
+
+"""
+order by avg() on columns of table "links"
+"""
+input links_avg_order_by {
+  id: order_by
 }
 
 """
@@ -3182,11 +3289,13 @@ input links_bool_exp {
   _or: [links_bool_exp!]
   created_at: timestamptz_comparison_exp
   id: Int_comparison_exp
+  link_group: link_groups_bool_exp
   link_group_id: uuid_comparison_exp
   name: String_comparison_exp
   type: String_comparison_exp
   updated_at: timestamptz_comparison_exp
   url: String_comparison_exp
+  user: users_bool_exp
   user_id: uuid_comparison_exp
 }
 
@@ -3218,11 +3327,13 @@ input type for inserting data into table "links"
 input links_insert_input {
   created_at: timestamptz
   id: Int
+  link_group: link_groups_obj_rel_insert_input
   link_group_id: uuid
   name: String
   type: String
   updated_at: timestamptz
   url: String
+  user: users_obj_rel_insert_input
   user_id: uuid
 }
 
@@ -3238,6 +3349,20 @@ type links_max_fields {
   user_id: uuid
 }
 
+"""
+order by max() on columns of table "links"
+"""
+input links_max_order_by {
+  created_at: order_by
+  id: order_by
+  link_group_id: order_by
+  name: order_by
+  type: order_by
+  updated_at: order_by
+  url: order_by
+  user_id: order_by
+}
+
 """aggregate min on columns"""
 type links_min_fields {
   created_at: timestamptz
@@ -3248,6 +3373,20 @@ type links_min_fields {
   updated_at: timestamptz
   url: String
   user_id: uuid
+}
+
+"""
+order by min() on columns of table "links"
+"""
+input links_min_order_by {
+  created_at: order_by
+  id: order_by
+  link_group_id: order_by
+  name: order_by
+  type: order_by
+  updated_at: order_by
+  url: order_by
+  user_id: order_by
 }
 
 """
@@ -3274,11 +3413,13 @@ input links_on_conflict {
 input links_order_by {
   created_at: order_by
   id: order_by
+  link_group: link_groups_order_by
   link_group_id: order_by
   name: order_by
   type: order_by
   updated_at: order_by
   url: order_by
+  user: users_order_by
   user_id: order_by
 }
 
@@ -3335,14 +3476,35 @@ type links_stddev_fields {
   id: Float
 }
 
+"""
+order by stddev() on columns of table "links"
+"""
+input links_stddev_order_by {
+  id: order_by
+}
+
 """aggregate stddev_pop on columns"""
 type links_stddev_pop_fields {
   id: Float
 }
 
+"""
+order by stddev_pop() on columns of table "links"
+"""
+input links_stddev_pop_order_by {
+  id: order_by
+}
+
 """aggregate stddev_samp on columns"""
 type links_stddev_samp_fields {
   id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "links"
+"""
+input links_stddev_samp_order_by {
+  id: order_by
 }
 
 """
@@ -3371,6 +3533,13 @@ input links_stream_cursor_value_input {
 """aggregate sum on columns"""
 type links_sum_fields {
   id: Int
+}
+
+"""
+order by sum() on columns of table "links"
+"""
+input links_sum_order_by {
+  id: order_by
 }
 
 """
@@ -3416,14 +3585,35 @@ type links_var_pop_fields {
   id: Float
 }
 
+"""
+order by var_pop() on columns of table "links"
+"""
+input links_var_pop_order_by {
+  id: order_by
+}
+
 """aggregate var_samp on columns"""
 type links_var_samp_fields {
   id: Float
 }
 
+"""
+order by var_samp() on columns of table "links"
+"""
+input links_var_samp_order_by {
+  id: order_by
+}
+
 """aggregate variance on columns"""
 type links_variance_fields {
   id: Float
+}
+
+"""
+order by variance() on columns of table "links"
+"""
+input links_variance_order_by {
+  id: order_by
 }
 
 """mutation root"""
@@ -4761,9 +4951,7 @@ type query_root {
   """fetch data from the table: "link_groups" using primary key columns"""
   link_groups_by_pk(id: uuid!): link_groups
 
-  """
-  fetch data from the table: "links"
-  """
+  """An array relationship"""
   links(
     """distinct select on columns"""
     distinct_on: [links_select_column!]
@@ -4781,9 +4969,7 @@ type query_root {
     where: links_bool_exp
   ): [links!]!
 
-  """
-  fetch aggregated fields from the table: "links"
-  """
+  """An aggregate relationship"""
   links_aggregate(
     """distinct select on columns"""
     distinct_on: [links_select_column!]
@@ -5430,9 +5616,7 @@ type subscription_root {
     where: link_groups_bool_exp
   ): [link_groups!]!
 
-  """
-  fetch data from the table: "links"
-  """
+  """An array relationship"""
   links(
     """distinct select on columns"""
     distinct_on: [links_select_column!]
@@ -5450,9 +5634,7 @@ type subscription_root {
     where: links_bool_exp
   ): [links!]!
 
-  """
-  fetch aggregated fields from the table: "links"
-  """
+  """An aggregate relationship"""
   links_aggregate(
     """distinct select on columns"""
     distinct_on: [links_select_column!]

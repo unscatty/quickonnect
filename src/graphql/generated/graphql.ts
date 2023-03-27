@@ -2487,9 +2487,35 @@ export type Link_Groups = {
   created_at?: Maybe<Scalars['timestamptz']>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['uuid'];
+  /** An array relationship */
+  links: Array<Links>;
+  /** An aggregate relationship */
+  links_aggregate: Links_Aggregate;
   name: Scalars['String'];
   updated_at?: Maybe<Scalars['timestamptz']>;
+  /** An object relationship */
+  user: Users;
   user_id: Scalars['uuid'];
+};
+
+
+/** Share your links in scope */
+export type Link_GroupsLinksArgs = {
+  distinct_on?: InputMaybe<Array<Links_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Links_Order_By>>;
+  where?: InputMaybe<Links_Bool_Exp>;
+};
+
+
+/** Share your links in scope */
+export type Link_GroupsLinks_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Links_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Links_Order_By>>;
+  where?: InputMaybe<Links_Bool_Exp>;
 };
 
 /** aggregated selection of "link_groups" */
@@ -2522,8 +2548,11 @@ export type Link_Groups_Bool_Exp = {
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  links?: InputMaybe<Links_Bool_Exp>;
+  links_aggregate?: InputMaybe<Links_Aggregate_Bool_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
   user_id?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
@@ -2538,8 +2567,10 @@ export type Link_Groups_Insert_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
+  links?: InputMaybe<Links_Arr_Rel_Insert_Input>;
   name?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   user_id?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -2574,6 +2605,13 @@ export type Link_Groups_Mutation_Response = {
   returning: Array<Link_Groups>;
 };
 
+/** input type for inserting object relation for remote table "link_groups" */
+export type Link_Groups_Obj_Rel_Insert_Input = {
+  data: Link_Groups_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Link_Groups_On_Conflict>;
+};
+
 /** on_conflict condition type for table "link_groups" */
 export type Link_Groups_On_Conflict = {
   constraint: Link_Groups_Constraint;
@@ -2586,8 +2624,10 @@ export type Link_Groups_Order_By = {
   created_at?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  links_aggregate?: InputMaybe<Links_Aggregate_Order_By>;
   name?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
   user_id?: InputMaybe<Order_By>;
 };
 
@@ -2667,11 +2707,15 @@ export type Links = {
   __typename?: 'links';
   created_at: Scalars['timestamptz'];
   id: Scalars['Int'];
+  /** An object relationship */
+  link_group?: Maybe<Link_Groups>;
   link_group_id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
   updated_at: Scalars['timestamptz'];
   url: Scalars['String'];
+  /** An object relationship */
+  user: Users;
   user_id: Scalars['uuid'];
 };
 
@@ -2680,6 +2724,17 @@ export type Links_Aggregate = {
   __typename?: 'links_aggregate';
   aggregate?: Maybe<Links_Aggregate_Fields>;
   nodes: Array<Links>;
+};
+
+export type Links_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Links_Aggregate_Bool_Exp_Count>;
+};
+
+export type Links_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Links_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Links_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "links" */
@@ -2705,10 +2760,37 @@ export type Links_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "links" */
+export type Links_Aggregate_Order_By = {
+  avg?: InputMaybe<Links_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Links_Max_Order_By>;
+  min?: InputMaybe<Links_Min_Order_By>;
+  stddev?: InputMaybe<Links_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Links_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Links_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Links_Sum_Order_By>;
+  var_pop?: InputMaybe<Links_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Links_Var_Samp_Order_By>;
+  variance?: InputMaybe<Links_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "links" */
+export type Links_Arr_Rel_Insert_Input = {
+  data: Array<Links_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Links_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Links_Avg_Fields = {
   __typename?: 'links_avg_fields';
   id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "links" */
+export type Links_Avg_Order_By = {
+  id?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "links". All fields are combined with a logical 'AND'. */
@@ -2718,11 +2800,13 @@ export type Links_Bool_Exp = {
   _or?: InputMaybe<Array<Links_Bool_Exp>>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
+  link_group?: InputMaybe<Link_Groups_Bool_Exp>;
   link_group_id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   type?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   url?: InputMaybe<String_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
   user_id?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
@@ -2743,11 +2827,13 @@ export type Links_Inc_Input = {
 export type Links_Insert_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']>;
   id?: InputMaybe<Scalars['Int']>;
+  link_group?: InputMaybe<Link_Groups_Obj_Rel_Insert_Input>;
   link_group_id?: InputMaybe<Scalars['uuid']>;
   name?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
   url?: InputMaybe<Scalars['String']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   user_id?: InputMaybe<Scalars['uuid']>;
 };
 
@@ -2764,6 +2850,18 @@ export type Links_Max_Fields = {
   user_id?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "links" */
+export type Links_Max_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  link_group_id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  url?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Links_Min_Fields = {
   __typename?: 'links_min_fields';
@@ -2775,6 +2873,18 @@ export type Links_Min_Fields = {
   updated_at?: Maybe<Scalars['timestamptz']>;
   url?: Maybe<Scalars['String']>;
   user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "links" */
+export type Links_Min_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  link_group_id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  url?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "links" */
@@ -2797,11 +2907,13 @@ export type Links_On_Conflict = {
 export type Links_Order_By = {
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  link_group?: InputMaybe<Link_Groups_Order_By>;
   link_group_id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   type?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   url?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
   user_id?: InputMaybe<Order_By>;
 };
 
@@ -2848,16 +2960,31 @@ export type Links_Stddev_Fields = {
   id?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev() on columns of table "links" */
+export type Links_Stddev_Order_By = {
+  id?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type Links_Stddev_Pop_Fields = {
   __typename?: 'links_stddev_pop_fields';
   id?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev_pop() on columns of table "links" */
+export type Links_Stddev_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_samp on columns */
 export type Links_Stddev_Samp_Fields = {
   __typename?: 'links_stddev_samp_fields';
   id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "links" */
+export type Links_Stddev_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "links" */
@@ -2884,6 +3011,11 @@ export type Links_Stream_Cursor_Value_Input = {
 export type Links_Sum_Fields = {
   __typename?: 'links_sum_fields';
   id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "links" */
+export type Links_Sum_Order_By = {
+  id?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "links" */
@@ -2920,16 +3052,31 @@ export type Links_Var_Pop_Fields = {
   id?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_pop() on columns of table "links" */
+export type Links_Var_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type Links_Var_Samp_Fields = {
   __typename?: 'links_var_samp_fields';
   id?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_samp() on columns of table "links" */
+export type Links_Var_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
+};
+
 /** aggregate variance on columns */
 export type Links_Variance_Fields = {
   __typename?: 'links_variance_fields';
   id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "links" */
+export type Links_Variance_Order_By = {
+  id?: InputMaybe<Order_By>;
 };
 
 /** mutation root */
@@ -3763,9 +3910,9 @@ export type Query_Root = {
   link_groups_aggregate: Link_Groups_Aggregate;
   /** fetch data from the table: "link_groups" using primary key columns */
   link_groups_by_pk?: Maybe<Link_Groups>;
-  /** fetch data from the table: "links" */
+  /** An array relationship */
   links: Array<Links>;
-  /** fetch aggregated fields from the table: "links" */
+  /** An aggregate relationship */
   links_aggregate: Links_Aggregate;
   /** fetch data from the table: "links" using primary key columns */
   links_by_pk?: Maybe<Links>;
@@ -4135,9 +4282,9 @@ export type Subscription_Root = {
   link_groups_by_pk?: Maybe<Link_Groups>;
   /** fetch data from the table in a streaming manner: "link_groups" */
   link_groups_stream: Array<Link_Groups>;
-  /** fetch data from the table: "links" */
+  /** An array relationship */
   links: Array<Links>;
-  /** fetch aggregated fields from the table: "links" */
+  /** An aggregate relationship */
   links_aggregate: Links_Aggregate;
   /** fetch data from the table: "links" using primary key columns */
   links_by_pk?: Maybe<Links>;
