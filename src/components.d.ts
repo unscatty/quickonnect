@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AddLinkModal: typeof import('./components/dashboard/AddLinkModal.vue')['default']
     Empty: typeof import('./components/Empty.vue')['default']
     ProfileForm: typeof import('./components/user/ProfileForm.vue')['default']
     README: typeof import('./components/README.md')['default']
