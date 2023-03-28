@@ -1,1 +1,1 @@
-export * from './isAuthenticated'
+export * from './is-authenticated'

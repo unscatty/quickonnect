@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n    mutation AddLink($linkInfo: links_insert_input!) {\n      newLink: insert_links_one(object: $linkInfo) {\n        name\n        url\n        type\n      }\n    }\n  ": types.AddLinkDocument,
+    "\n  query UserAllLinks {\n    links {\n      name\n      type\n      url\n    }\n  }\n": types.UserAllLinksDocument,
     "\n  mutation UserUpdateMetadata(\n    $id: uuid!\n    $displayName: String!\n    $metadata: jsonb\n  ) {\n    userData: updateUser(\n      pk_columns: { id: $id }\n      _set: { displayName: $displayName, metadata: $metadata }\n    ) {\n      displayName\n      metadata\n    }\n  }\n": types.UserUpdateMetadataDocument,
 };
 
@@ -35,6 +36,10 @@ export function graphql(source: string): unknown;
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n    mutation AddLink($linkInfo: links_insert_input!) {\n      newLink: insert_links_one(object: $linkInfo) {\n        name\n        url\n        type\n      }\n    }\n  "): (typeof documents)["\n    mutation AddLink($linkInfo: links_insert_input!) {\n      newLink: insert_links_one(object: $linkInfo) {\n        name\n        url\n        type\n      }\n    }\n  "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query UserAllLinks {\n    links {\n      name\n      type\n      url\n    }\n  }\n"): (typeof documents)["\n  query UserAllLinks {\n    links {\n      name\n      type\n      url\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
