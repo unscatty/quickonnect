@@ -1,5 +1,10 @@
 lockfileVersion: 5.4
 
+patchedDependencies:
+  '@vue/apollo-composable@4.0.0-beta.4':
+    hash: e57z5xsfuxmhrtrjbazlydzmgi
+    path: patches/@vue__apollo-composable@4.0.0-beta.4.patch
+
 specifiers:
   '@apollo/client': ^3.7.10
   '@graphql-codegen/cli': 3.2.2
@@ -78,7 +83,7 @@ dependencies:
   '@nhost/apollo': 5.1.1_dpeojnli5ryn4qv35awrrdh6om
   '@nhost/vue': 1.13.17_graphql@16.6.0+vue@3.2.47
   '@unocss/reset': 0.50.6
-  '@vue/apollo-composable': 4.0.0-beta.4_tnpyprtxdscrjn7ifxebhzdh3e
+  '@vue/apollo-composable': 4.0.0-beta.4_e57z5xsfuxmhrtrjbazlydzmgi_tnpyprtxdscrjn7ifxebhzdh3e
   '@vueuse/core': 9.13.0_vue@3.2.47
   '@vueuse/head': 1.1.23_vue@3.2.47
   graphql: 16.6.0
@@ -3787,7 +3792,7 @@ packages:
       - vue
     dev: true
 
-  /@vue/apollo-composable/4.0.0-beta.4_tnpyprtxdscrjn7ifxebhzdh3e:
+  /@vue/apollo-composable/4.0.0-beta.4_e57z5xsfuxmhrtrjbazlydzmgi_tnpyprtxdscrjn7ifxebhzdh3e:
     resolution: {integrity: sha512-lErWL+9LGfWfdfrSYY3DQB/A8Asqs46MiKwmgKeKSj7fe01tx0UpH43aiwMGj+VgEzBZ9AfqEa/Bxf0Nff/NNw==}
     peerDependencies:
       '@apollo/client': ^3.4.13
@@ -3807,6 +3812,7 @@ packages:
     transitivePeerDependencies:
       - typescript
     dev: false
+    patched: true
 
   /@vue/babel-helper-vue-transform-on/1.0.2:
     resolution: {integrity: sha512-hz4R8tS5jMn8lDq6iD+yWL6XNB699pGIVLk7WSJnn1dbpjaazsjZQkieJoRX6gW5zpYSCFqQ7jUquPNY65tQYA==}

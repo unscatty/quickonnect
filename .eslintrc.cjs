@@ -35,6 +35,7 @@ module.exports = {
     'src/shims.d.ts',
     'src/client.d.ts',
     'src/graphql/generated/**/*',
+    'patches/*',
     'pnpm-lock.yaml',
     'index.html',
     'schema.graphql'

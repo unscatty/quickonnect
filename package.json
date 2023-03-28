@@ -93,5 +93,10 @@
   },
   "lint-staged": {
     "*": "eslint --fix"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@vue/apollo-composable@4.0.0-beta.4": "patches/@vue__apollo-composable@4.0.0-beta.4.patch"
+    }
   }
 }

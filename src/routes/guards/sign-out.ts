@@ -1,9 +1,7 @@
 import type { NavigationGuard, RouteLocationRaw } from 'vue-router'
 import nhost from '~/services/nhost-client'
 
-export const signoutGuard = (
-  redirectTo: RouteLocationRaw
-): NavigationGuard => {
+export const signoutGuard = (redirectTo: RouteLocationRaw): NavigationGuard => {
   return async (_, __, next) => {
     const isAuthenticated = await nhost.auth.isAuthenticatedAsync()
 
@@ -13,11 +11,9 @@ export const signoutGuard = (
 
       if (signedOut.error) {
         next(new Error(signedOut.error.message))
-      } else {
-        next(redirectTo)
       }
-    } else {
-      next(false)
     }
+
+    next(redirectTo)
   }
 }
