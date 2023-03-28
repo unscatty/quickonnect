@@ -8,6 +8,7 @@ specifiers:
   '@headlessui/vue': ^1.7.12
   '@iconify-json/carbon': ^1.1.16
   '@iconify-json/heroicons': ^1.1.10
+  '@iconify-json/simple-icons': ^1.1.47
   '@intlify/unplugin-vue-i18n': ^0.9.2
   '@julr/unocss-preset-forms': ^0.0.3
   '@nhost/apollo': ^5.1.1
@@ -96,6 +97,7 @@ devDependencies:
   '@graphql-codegen/client-preset': 2.1.1_graphql@16.6.0
   '@graphql-eslint/eslint-plugin': 3.16.2_cd4r55mkxm7wczyrejmztiwhaa
   '@iconify-json/carbon': 1.1.16
+  '@iconify-json/simple-icons': 1.1.47
   '@intlify/unplugin-vue-i18n': 0.9.2_2zqjidl67vtf3eplgf74ci35dq
   '@types/markdown-it-link-attributes': 3.0.1
   '@types/nprogress': 0.2.0
@@ -2407,6 +2409,12 @@ packages:
     dependencies:
       '@iconify/types': 2.0.0
     dev: false
+
+  /@iconify-json/simple-icons/1.1.47:
+    resolution: {integrity: sha512-nmyvFWvZtftWBFaFgiz3mwVf2lXCnJL2tbXNz3HKKEUiX5aHwuXLmu4jdJ5L3kLmQB2YmAprYBJc5fQnYy4Z/g==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
 
   /@iconify/types/2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}

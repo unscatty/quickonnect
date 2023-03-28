@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import {
-  TransitionRoot,
-  TransitionChild,
   Dialog,
   DialogOverlay,
   DialogTitle,
+  TransitionChild,
+  TransitionRoot,
 } from '@headlessui/vue'
 import { useMutation } from '@vue/apollo-composable'
 import { graphql } from '~/graphql/generated'
-import { Links_Insert_Input } from '../../graphql/generated/graphql'
 
 const props = defineProps({
   isOpen: {
@@ -22,12 +21,13 @@ const emit = defineEmits(['update:isOpen'])
 
 const isOpen = useVModel(props, 'isOpen', emit)
 
-// Bind form to ref value
-const insertLinkForm = ref<Links_Insert_Input>({
+const defaultLinkForm = {
   name: '',
   url: '',
-  type: '',
-})
+  type: 'i-heroicons:link',
+}
+// Bind form to ref value
+const insertLinkForm = ref(structuredClone(defaultLinkForm))
 
 // Add link mutation
 const { mutate } = useMutation(
@@ -42,10 +42,10 @@ const { mutate } = useMutation(
   `)
 )
 
-const addNewLink = async (event: Event) => {
-  event.preventDefault()
-
+const addNewLink = async () => {
   await mutate({ linkInfo: insertLinkForm.value })
+
+  insertLinkForm.value = structuredClone(defaultLinkForm)
 }
 </script>
 
@@ -102,7 +102,7 @@ const addNewLink = async (event: Event) => {
                 </DialogTitle>
                 <p class="mt-1 max-w-2xl text-sm text-gray-500">Description</p>
               </div>
-              <form class="space-y-6 sm:space-y-5" @submit="addNewLink">
+              <form class="space-y-6 sm:space-y-5" @submit.prevent="addNewLink">
                 <div
                   class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
                 >
@@ -119,7 +119,7 @@ const addNewLink = async (event: Event) => {
                       type="text"
                       name="street-address"
                       autocomplete="street-address"
-                      class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+                      class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md text-gray-800"
                     />
                   </div>
                 </div>
@@ -140,7 +140,7 @@ const addNewLink = async (event: Event) => {
                       type="text"
                       name="street-address"
                       autocomplete="street-address"
-                      class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+                      class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md text-gray-800"
                     />
                   </div>
                 </div>
@@ -151,17 +151,10 @@ const addNewLink = async (event: Event) => {
                     for="street-address"
                     class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                   >
-                    Kind
+                    Icon
                   </label>
                   <div class="mt-1 sm:mt-0 sm:col-span-2">
-                    <input
-                      id="street-address"
-                      v-model="insertLinkForm.type"
-                      type="text"
-                      name="street-address"
-                      autocomplete="street-address"
-                      class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-                    />
+                    <IconDropdown v-model:selected-icon="insertLinkForm.type" />
                   </div>
                 </div>
                 <div class="flex justify-end gap-4">

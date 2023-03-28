@@ -2,7 +2,7 @@
 import { useUserData } from '@nhost/vue'
 
 const userData = useUserData()
-const isModalOpen = ref(true)
+const isModalOpen = ref(false)
 </script>
 
 <template>
