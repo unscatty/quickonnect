@@ -14,6 +14,9 @@ const iconOptions = [
   { class: 'i-simple-icons:instagram', description: 'Instagram' },
   { class: 'i-simple-icons:discord', description: 'Discord' },
   { class: 'i-simple-icons:telegram', description: 'Telegram' },
+  {class: 'i-simple-icons:youtube', description: 'YouTube'},
+  {class: 'i-simple-icons:tiktok', description: 'TikTok'},
+  // Other
   { class: 'i-heroicons:link', description: 'Otro' },
 ]
 
