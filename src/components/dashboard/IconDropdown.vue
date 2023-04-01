@@ -1,24 +1,8 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { AVAILABLE_ICONS } from '~/constants/avalilable-icons'
 
-const iconOptions = [
-  // Formal ?
-  { class: 'i-simple-icons:linkedin', description: 'LinkedIn' },
-  { class: 'i-simple-icons:github', description: 'Github' },
-  { class: 'i-simple-icons:behance', description: 'Behance' },
-  { class: 'i-carbon:portfolio', description: 'Portfolio' },
-  { class: 'i-heroicons:globe-alt', description: 'Website' },
-
-  // Social
-  { class: 'i-simple-icons:facebook', description: 'Facebook' },
-  { class: 'i-simple-icons:instagram', description: 'Instagram' },
-  { class: 'i-simple-icons:discord', description: 'Discord' },
-  { class: 'i-simple-icons:telegram', description: 'Telegram' },
-  {class: 'i-simple-icons:youtube', description: 'YouTube'},
-  {class: 'i-simple-icons:tiktok', description: 'TikTok'},
-  // Other
-  { class: 'i-heroicons:link', description: 'Otro' },
-]
+const iconOptions = AVAILABLE_ICONS
 
 const props = defineProps<{
   selectedIcon: string
@@ -29,7 +13,7 @@ const emit = defineEmits(['update:selectedIcon'])
 const selectedIcon = useVModel(props, 'selectedIcon', emit)
 
 const selectIcon = (index: number) => {
-  selectedIcon.value = iconOptions[index].class
+  selectedIcon.value = iconOptions[index].iconClass
 }
 </script>
 
@@ -58,11 +42,13 @@ const selectIcon = (index: number) => {
       leave-to-class="transform opacity-0 scale-95"
     >
       <MenuItems
-        class="origin-top-left absolute left-0 bottom-11 mt-2 w-66.5 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-30 container grid grid-cols-4 gap-2 mx-auto p-2"
-        sm="w-86.5 grid-cols-5"
-        focus="outline-none"
+        class="origin-top-left absolute left-0 bottom-11 mt-2 w-66.5 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-30 container grid grid-cols-4 gap-2 mx-auto p-2 sm:w-86.5 sm:grid-cols-5 focus:outline-none"
       >
-        <MenuItem v-for="(iconOption, index) in iconOptions" :key="index" v-slot="{ active }">
+        <MenuItem
+          v-for="(iconOption, index) in iconOptions"
+          :key="index"
+          v-slot="{ active }"
+        >
           <a
             href="#"
             :class="[
@@ -73,7 +59,7 @@ const selectIcon = (index: number) => {
             :title="iconOption.description"
             @click="selectIcon(index)"
           >
-            <div :class="iconOption.class" class="w-full h-10" />
+            <div :class="iconOption.iconClass" class="w-full h-10" />
           </a>
         </MenuItem>
       </MenuItems>

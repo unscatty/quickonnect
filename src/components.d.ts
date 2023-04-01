@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     Empty: typeof import('./components/Empty.vue')['default']
     IconDropdown: typeof import('./components/dashboard/IconDropdown.vue')['default']
     ProfileForm: typeof import('./components/user/ProfileForm.vue')['default']
+    QuickLinks: typeof import('./components/dashboard/QuickLinks.vue')['default']
     README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

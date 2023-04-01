@@ -46,6 +46,8 @@ const addNewLink = async () => {
   await mutate({ linkInfo: insertLinkForm.value })
 
   insertLinkForm.value = structuredClone(defaultLinkForm)
+
+  isOpen.value = false
 }
 </script>
 
@@ -54,6 +56,8 @@ const addNewLink = async () => {
     <Dialog
       as="div"
       class="fixed z-10 inset-0 overflow-y-auto"
+      :open="isOpen"
+      :unmount="false"
       @close="isOpen = false"
     >
       <div
@@ -107,18 +111,18 @@ const addNewLink = async () => {
                   class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
                 >
                   <label
-                    for="street-address"
+                    for="name"
                     class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                   >
                     Name
                   </label>
                   <div class="mt-1 sm:mt-0 sm:col-span-2">
                     <input
-                      id="street-address"
+                      id="name"
                       v-model="insertLinkForm.name"
                       type="text"
-                      name="street-address"
-                      autocomplete="street-address"
+                      name="name"
+                      autocomplete="name"
                       class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md text-gray-800"
                     />
                   </div>
@@ -128,18 +132,18 @@ const addNewLink = async () => {
                   class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
                 >
                   <label
-                    for="street-address"
+                    for="url"
                     class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                   >
                     URL
                   </label>
                   <div class="mt-1 sm:mt-0 sm:col-span-2">
                     <input
-                      id="street-address"
+                      id="url"
                       v-model="insertLinkForm.url"
                       type="text"
-                      name="street-address"
-                      autocomplete="street-address"
+                      name="url"
+                      autocomplete="url"
                       class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md text-gray-800"
                     />
                   </div>
@@ -148,7 +152,7 @@ const addNewLink = async () => {
                   class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
                 >
                   <label
-                    for="street-address"
+                    for="icon"
                     class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                   >
                     Icon

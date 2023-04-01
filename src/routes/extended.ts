@@ -5,7 +5,7 @@ const extendedRoutes: RouteRecordRaw[] = [
   {
     path: '/sign-out',
     component: import('~/components/Empty.vue'),
-    beforeEnter: signoutGuard('/')
+    beforeEnter: signoutGuard('/auth')
   },
 ]
 

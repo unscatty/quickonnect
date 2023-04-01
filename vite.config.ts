@@ -32,20 +32,27 @@ export default defineConfig(async ({ mode }) => {
     CODEGEN_SCHEMA_FILE,
   } = env
 
-  // Fetch schema from endpoint with permissions
-  const schema = await getRemoteSchema(CODEGEN_GRAPHQL_ENDPOINT, {
-    method: 'POST',
-    headers: {
-      'x-hasura-admin-secret': CODEGEN_GRAPHQL_ADMIN_SECRET,
-    },
-  })
+  try {
+    // Fetch schema from endpoint with permissions
+    const schema = await getRemoteSchema(CODEGEN_GRAPHQL_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'x-hasura-admin-secret': CODEGEN_GRAPHQL_ADMIN_SECRET,
+      },
+    })
 
-  console.log(`Successfully fetched schema from ${CODEGEN_GRAPHQL_ENDPOINT}`)
+    console.log(`Successfully fetched schema from ${CODEGEN_GRAPHQL_ENDPOINT}`)
 
-  // Save schema to a file
-  printSchemaToFile(path.resolve(__dirname, CODEGEN_SCHEMA_FILE), schema)
+    // Save schema to a file
+    printSchemaToFile(path.resolve(__dirname, CODEGEN_SCHEMA_FILE), schema)
 
-  console.log(`Schema fetched to file: ${CODEGEN_SCHEMA_FILE}`)
+    console.log(`Schema fetched to file: ${CODEGEN_SCHEMA_FILE}`)
+  } catch (e) {
+    console.error(
+      `Failed to  fetched schema from ${CODEGEN_GRAPHQL_ENDPOINT}\nIs server running?`
+    )
+    throw e
+  }
 
   return {
     resolve: {

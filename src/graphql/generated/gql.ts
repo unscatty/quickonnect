@@ -1,6 +1,6 @@
 /* eslint-disable */
 import * as types from './graphql';
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
 /**
  * Map of all GraphQL operations in the project.
@@ -14,7 +14,9 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n    mutation AddLink($linkInfo: links_insert_input!) {\n      newLink: insert_links_one(object: $linkInfo) {\n        name\n        url\n        type\n      }\n    }\n  ": types.AddLinkDocument,
-    "\n  query UserAllLinks {\n    links {\n      name\n      type\n      url\n    }\n  }\n": types.UserAllLinksDocument,
+    "\n  query UserAllLinks {\n    links {\n      ...LinkInfo\n    }\n  }\n": types.UserAllLinksDocument,
+    "\n  fragment LinkInfo on links {\n    id\n    name\n    type\n    url\n  }\n": types.LinkInfoFragmentDoc,
+    "\n  subscription NewLinks {\n    newLinks: links {\n      ...LinkInfo\n    }\n  }\n": types.NewLinksDocument,
     "\n  mutation UserUpdateMetadata(\n    $id: uuid!\n    $displayName: String!\n    $metadata: jsonb\n  ) {\n    userData: updateUser(\n      pk_columns: { id: $id }\n      _set: { displayName: $displayName, metadata: $metadata }\n    ) {\n      displayName\n      metadata\n    }\n  }\n": types.UserUpdateMetadataDocument,
 };
 
@@ -39,7 +41,15 @@ export function graphql(source: "\n    mutation AddLink($linkInfo: links_insert_
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query UserAllLinks {\n    links {\n      name\n      type\n      url\n    }\n  }\n"): (typeof documents)["\n  query UserAllLinks {\n    links {\n      name\n      type\n      url\n    }\n  }\n"];
+export function graphql(source: "\n  query UserAllLinks {\n    links {\n      ...LinkInfo\n    }\n  }\n"): (typeof documents)["\n  query UserAllLinks {\n    links {\n      ...LinkInfo\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  fragment LinkInfo on links {\n    id\n    name\n    type\n    url\n  }\n"): (typeof documents)["\n  fragment LinkInfo on links {\n    id\n    name\n    type\n    url\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  subscription NewLinks {\n    newLinks: links {\n      ...LinkInfo\n    }\n  }\n"): (typeof documents)["\n  subscription NewLinks {\n    newLinks: links {\n      ...LinkInfo\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
