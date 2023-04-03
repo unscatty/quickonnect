@@ -181,6 +181,7 @@ export default defineConfig(async ({ mode }) => {
       // https://github.com/webfansplz/vite-plugin-vue-inspector
       Inspector({
         toggleButtonVisibility: 'never',
+        toggleComboKey: 'alt-i',
       }),
       Codegen({
         configFilePathOverride: path.resolve(__dirname, 'graphql-codegen.ts'),
