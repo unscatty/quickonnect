@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useQuery, useSubscription } from '@vue/apollo-composable'
+import { useFragment } from '~/graphql/generated'
 import { ALL_LINKS_QUERY } from '~/graphql/links/all.query'
-import { LinkInfoFragment } from '~/graphql/links/info.fragment'
+import { LINK_INFO_FRAGMENT } from '~/graphql/links/info.fragment'
 import { ON_NEW_LINK_SUBSCRIPTION } from '~/graphql/links/on-new.sub'
-import { useFragment } from '../../graphql/generated'
 
-const linksArray = ref(useFragment(LinkInfoFragment, []))
+const linksArray = ref(useFragment(LINK_INFO_FRAGMENT, []))
 
 const links = computed({
   get() {
@@ -21,7 +21,7 @@ const { onResult: onAllLinks } = useQuery(ALL_LINKS_QUERY)
 // Replace the links array with the new data
 onAllLinks((result) => {
   if (result.data?.links?.length) {
-    links.value = useFragment(LinkInfoFragment, result.data.links)
+    links.value = useFragment(LINK_INFO_FRAGMENT, result.data.links)
   }
 })
 
@@ -30,8 +30,8 @@ const { onResult: onNewLinks } = useSubscription(ON_NEW_LINK_SUBSCRIPTION)
 // Update the links array with the new data
 onNewLinks((result) => {
   if (result.data?.newLinks?.length) {
-    console.log('newLinks', result.data.newLinks)
-    links.value = useFragment(LinkInfoFragment, result.data.newLinks)
+    // console.log('newLinks', reLINK_INFO_FRAGMENTks)
+    links.value = useFragment(LINK_INFO_FRAGMENT, result.data.newLinks)
   }
 })
 </script>

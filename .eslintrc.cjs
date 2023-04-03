@@ -29,6 +29,7 @@ module.exports = {
   ignorePatterns: [
     'dist/*',
     'cypress/*',
+    '*.css',
     'src/auto-imports.d.ts',
     'src/components.d.ts',
     'src/types.ts',

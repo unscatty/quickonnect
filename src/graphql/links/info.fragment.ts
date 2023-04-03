@@ -1,6 +1,6 @@
 import { graphql } from "~/graphql/generated";
 
-export const LinkInfoFragment = graphql(`
+export const LINK_INFO_FRAGMENT = graphql(`
   fragment LinkInfo on links {
     id
     name
