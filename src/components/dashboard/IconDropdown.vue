@@ -42,7 +42,7 @@ const selectIcon = (index: number) => {
       leave-to-class="transform opacity-0 scale-95"
     >
       <MenuItems
-        class="origin-top-left absolute left-0 bottom-11 mt-2 w-66.5 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-30 container grid grid-cols-4 gap-2 mx-auto p-2 sm:w-86.5 sm:grid-cols-5 focus:outline-none"
+        class="origin-top-left absolute left-0 bottom-18 mt-2 w-66.5 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-30 container grid grid-cols-4 gap-2 mx-auto p-2 sm:w-86.5 sm:grid-cols-5 focus:outline-none"
       >
         <MenuItem
           v-for="(iconOption, index) in iconOptions"
@@ -51,10 +51,10 @@ const selectIcon = (index: number) => {
         >
           <a
             href="#"
-            :class="[
-              active ? 'bg-gray-1 text-black rounded-xl' : 'text-gray-400',
-              'px-4 py-2 text-sm',
-            ]"
+            :class="
+              active ? 'bg-gray-1 text-black rounded-xl' : 'text-gray-400'
+            "
+            class="px-4 py-2 text-sm"
             data-te-toggle="tooltip"
             :title="iconOption.description"
             @click="selectIcon(index)"

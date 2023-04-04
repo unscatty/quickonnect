@@ -13,7 +13,7 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n    mutation AddLink($linkInfo: links_insert_input!) {\n      newLink: insert_links_one(object: $linkInfo) {\n        name\n        url\n        type\n      }\n    }\n  ": types.AddLinkDocument,
+    "\n    mutation AddLink($linkData: links_insert_input!) {\n      newLink: insert_links_one(object: $linkData) {\n        ...LinkInfo\n      }\n    }\n  ": types.AddLinkDocument,
     "\n  query UserAllLinks {\n    links {\n      ...LinkInfo\n    }\n  }\n": types.UserAllLinksDocument,
     "\n  fragment LinkInfo on links {\n    id\n    name\n    type\n    url\n  }\n": types.LinkInfoFragmentDoc,
     "\n  subscription NewLinks {\n    newLinks: links {\n      ...LinkInfo\n    }\n  }\n": types.NewLinksDocument,
@@ -37,7 +37,7 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    mutation AddLink($linkInfo: links_insert_input!) {\n      newLink: insert_links_one(object: $linkInfo) {\n        name\n        url\n        type\n      }\n    }\n  "): (typeof documents)["\n    mutation AddLink($linkInfo: links_insert_input!) {\n      newLink: insert_links_one(object: $linkInfo) {\n        name\n        url\n        type\n      }\n    }\n  "];
+export function graphql(source: "\n    mutation AddLink($linkData: links_insert_input!) {\n      newLink: insert_links_one(object: $linkData) {\n        ...LinkInfo\n      }\n    }\n  "): (typeof documents)["\n    mutation AddLink($linkData: links_insert_input!) {\n      newLink: insert_links_one(object: $linkData) {\n        ...LinkInfo\n      }\n    }\n  "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

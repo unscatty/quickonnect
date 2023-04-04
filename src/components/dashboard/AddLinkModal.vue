@@ -6,8 +6,12 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue'
-import { useMutation } from '@vue/apollo-composable'
-import { graphql } from '~/graphql/generated'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
+import { useMutation as useGQLMutation } from '@vue/apollo-composable'
+import { graphql, useFragment } from '~/graphql/generated'
+import { LINK_INFO_FRAGMENT } from '~/graphql/links/info.fragment'
+
+const queryClient = useQueryClient()
 
 const props = defineProps({
   isOpen: {
@@ -30,20 +34,43 @@ const defaultLinkForm = {
 const insertLinkForm = ref(structuredClone(defaultLinkForm))
 
 // Add link mutation
-const { mutate } = useMutation(
+const { mutate: createNewLink } = useGQLMutation(
   graphql(`
-    mutation AddLink($linkInfo: links_insert_input!) {
-      newLink: insert_links_one(object: $linkInfo) {
-        name
-        url
-        type
+    mutation AddLink($linkData: links_insert_input!) {
+      newLink: insert_links_one(object: $linkData) {
+        ...LinkInfo
       }
     }
   `)
 )
 
+const { mutate } = useMutation({
+  mutationFn: async (...createParams: Parameters<typeof createNewLink>) => {
+    const createdLink = await createNewLink(...createParams)
+
+    return useFragment(LINK_INFO_FRAGMENT, createdLink?.data?.newLink)
+  },
+  // Optimistically insert new value
+  onMutate: async (newLink) => {
+    await queryClient.cancelQueries({ queryKey: ['links'] })
+
+    const previousLinks = queryClient.getQueryData(['links'])
+
+    queryClient.setQueryData(['links'], (old: any) => {
+      return [...old, newLink?.linkData]
+    })
+
+    return { previousLinks }
+  },
+  // If the mutation fails,
+  // use the context returned from onMutate to roll back
+  onError: (err, newLink, context) => {
+    queryClient.setQueryData(['links'], context?.previousLinks)
+  },
+})
+
 const addNewLink = async () => {
-  await mutate({ linkInfo: insertLinkForm.value })
+  mutate({ linkData: insertLinkForm.value })
 
   insertLinkForm.value = structuredClone(defaultLinkForm)
 
