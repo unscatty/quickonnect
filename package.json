@@ -17,15 +17,12 @@
     "codegen": "graphql-codegen --config graphql-codegen.ts"
   },
   "dependencies": {
-    "@apollo/client": "^3.7.10",
     "@headlessui/vue": "^1.7.12",
     "@iconify-json/heroicons": "^1.1.10",
     "@julr/unocss-preset-forms": "^0.0.3",
-    "@nhost/apollo": "^5.1.1",
     "@nhost/vue": "^1.13.17",
     "@tanstack/vue-query": "^4.27.0",
     "@unocss/reset": "^0.50.6",
-    "@vue/apollo-composable": "4.0.0-beta.4",
     "@vueuse/core": "^9.13.0",
     "@vueuse/head": "^1.1.23",
     "graphql": "^16.6.0",
@@ -95,10 +92,5 @@
   },
   "lint-staged": {
     "*": "eslint --fix"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "@vue/apollo-composable@4.0.0-beta.4": "patches/@vue__apollo-composable@4.0.0-beta.4.patch"
-    }
   }
 }

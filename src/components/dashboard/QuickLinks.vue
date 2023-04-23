@@ -1,15 +1,9 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query'
-// import { useQuery as useGQLQuery } from '@vue/apollo-composable'
 import { useFragment } from '~/graphql/generated'
 import { ALL_LINKS_QUERY } from '~/graphql/links/all.query'
 import { LINK_INFO_FRAGMENT } from '~/graphql/links/info.fragment'
 import gqlClient from '~/services/graphql-client'
-// import { promisifyUseQuery } from '~/utils/promisify-apollo'
-
-// const { promisifiedResult: allLinks } = promisifyUseQuery(
-//   useGQLQuery(ALL_LINKS_QUERY)
-// )
 
 const { data: links } = useQuery({
   queryKey: ['links'],

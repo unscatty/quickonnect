@@ -1,9 +1,8 @@
 <script setup lang="ts">
+import { VariablesOf } from '@graphql-typed-document-node/core'
 import { useNhostClient, useUserData } from '@nhost/vue'
-// import { useMutation } from '@vue/apollo-composable'
 import { useMutation } from '@tanstack/vue-query'
 import { USER_UPDATE_METADATA_MUTATION } from '~/graphql/user/update-metadata.mutation'
-import { VariablesOf } from '@graphql-typed-document-node/core'
 import gqlClient from '~/services/graphql-client'
 
 const { nhost } = useNhostClient()
@@ -15,8 +14,6 @@ const displayName = ref(userData.value?.displayName ?? '')
 const firstName = ref(<string>userMetadata?.firstName ?? '')
 const lastName = ref(<string>userMetadata?.lastName ?? '')
 const about = ref(<string>userMetadata?.about ?? '')
-
-// const { mutate, loading } = useMutation(USER_UPDATE_METADATA_MUTATION)
 
 const { mutate: mutUpdateUserProfile, isLoading } = useMutation({
   mutationFn: async (
