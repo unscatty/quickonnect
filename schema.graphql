@@ -2984,6 +2984,17 @@ type link_groups_aggregate {
   nodes: [link_groups!]!
 }
 
+input link_groups_aggregate_bool_exp {
+  count: link_groups_aggregate_bool_exp_count
+}
+
+input link_groups_aggregate_bool_exp_count {
+  arguments: [link_groups_select_column!]
+  distinct: Boolean
+  filter: link_groups_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "link_groups"
 """
@@ -2991,6 +3002,25 @@ type link_groups_aggregate_fields {
   count(columns: [link_groups_select_column!], distinct: Boolean): Int!
   max: link_groups_max_fields
   min: link_groups_min_fields
+}
+
+"""
+order by aggregate values of table "link_groups"
+"""
+input link_groups_aggregate_order_by {
+  count: order_by
+  max: link_groups_max_order_by
+  min: link_groups_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "link_groups"
+"""
+input link_groups_arr_rel_insert_input {
+  data: [link_groups_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: link_groups_on_conflict
 }
 
 """
@@ -3045,6 +3075,18 @@ type link_groups_max_fields {
   user_id: uuid
 }
 
+"""
+order by max() on columns of table "link_groups"
+"""
+input link_groups_max_order_by {
+  created_at: order_by
+  description: order_by
+  id: order_by
+  name: order_by
+  updated_at: order_by
+  user_id: order_by
+}
+
 """aggregate min on columns"""
 type link_groups_min_fields {
   created_at: timestamptz
@@ -3053,6 +3095,18 @@ type link_groups_min_fields {
   name: String
   updated_at: timestamptz
   user_id: uuid
+}
+
+"""
+order by min() on columns of table "link_groups"
+"""
+input link_groups_min_order_by {
+  created_at: order_by
+  description: order_by
+  id: order_by
+  name: order_by
+  updated_at: order_by
+  user_id: order_by
 }
 
 """
@@ -3780,6 +3834,19 @@ type mutation_root {
   delete_links_by_pk(id: Int!): links
 
   """
+  delete data from the table: "user_connections"
+  """
+  delete_user_connections(
+    """filter the rows which have to be deleted"""
+    where: user_connections_bool_exp!
+  ): user_connections_mutation_response
+
+  """
+  delete single row from the table: "user_connections"
+  """
+  delete_user_connections_by_pk(generator_id: uuid!, id: uuid!): user_connections
+
+  """
   insert a single row into the table: "auth.providers"
   """
   insertAuthProvider(
@@ -4042,6 +4109,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: links_on_conflict
   ): links
+
+  """
+  insert data into the table: "user_connections"
+  """
+  insert_user_connections(
+    """the rows to be inserted"""
+    objects: [user_connections_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: user_connections_on_conflict
+  ): user_connections_mutation_response
+
+  """
+  insert a single row into the table: "user_connections"
+  """
+  insert_user_connections_one(
+    """the row to be inserted"""
+    object: user_connections_insert_input!
+
+    """upsert condition"""
+    on_conflict: user_connections_on_conflict
+  ): user_connections
 
   """
   update single row of the table: "auth.providers"
@@ -4480,6 +4569,34 @@ type mutation_root {
   ): [links_mutation_response]
 
   """
+  update data of the table: "user_connections"
+  """
+  update_user_connections(
+    """sets the columns of the filtered rows to the given values"""
+    _set: user_connections_set_input
+
+    """filter the rows which have to be updated"""
+    where: user_connections_bool_exp!
+  ): user_connections_mutation_response
+
+  """
+  update single row of the table: "user_connections"
+  """
+  update_user_connections_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: user_connections_set_input
+    pk_columns: user_connections_pk_columns_input!
+  ): user_connections
+
+  """
+  update multiples rows of table: "user_connections"
+  """
+  update_user_connections_many(
+    """updates to execute, in order"""
+    updates: [user_connections_updates!]!
+  ): [user_connections_mutation_response]
+
+  """
   update multiples rows of table: "auth.users"
   """
   update_users_many(
@@ -4908,9 +5025,7 @@ type query_root {
     where: files_bool_exp
   ): files_aggregate!
 
-  """
-  fetch data from the table: "link_groups"
-  """
+  """An array relationship"""
   link_groups(
     """distinct select on columns"""
     distinct_on: [link_groups_select_column!]
@@ -4928,9 +5043,7 @@ type query_root {
     where: link_groups_bool_exp
   ): [link_groups!]!
 
-  """
-  fetch aggregated fields from the table: "link_groups"
-  """
+  """An aggregate relationship"""
   link_groups_aggregate(
     """distinct select on columns"""
     distinct_on: [link_groups_select_column!]
@@ -4992,6 +5105,51 @@ type query_root {
 
   """fetch data from the table: "auth.users" using primary key columns"""
   user(id: uuid!): users
+
+  """
+  fetch data from the table: "user_connections"
+  """
+  user_connections(
+    """distinct select on columns"""
+    distinct_on: [user_connections_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_connections_order_by!]
+
+    """filter the rows returned"""
+    where: user_connections_bool_exp
+  ): [user_connections!]!
+
+  """
+  fetch aggregated fields from the table: "user_connections"
+  """
+  user_connections_aggregate(
+    """distinct select on columns"""
+    distinct_on: [user_connections_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_connections_order_by!]
+
+    """filter the rows returned"""
+    where: user_connections_bool_exp
+  ): user_connections_aggregate!
+
+  """
+  fetch data from the table: "user_connections" using primary key columns
+  """
+  user_connections_by_pk(generator_id: uuid!, id: uuid!): user_connections
 
   """
   fetch data from the table: "auth.users"
@@ -5559,9 +5717,7 @@ type subscription_root {
     where: files_bool_exp
   ): [files!]!
 
-  """
-  fetch data from the table: "link_groups"
-  """
+  """An array relationship"""
   link_groups(
     """distinct select on columns"""
     distinct_on: [link_groups_select_column!]
@@ -5579,9 +5735,7 @@ type subscription_root {
     where: link_groups_bool_exp
   ): [link_groups!]!
 
-  """
-  fetch aggregated fields from the table: "link_groups"
-  """
+  """An aggregate relationship"""
   link_groups_aggregate(
     """distinct select on columns"""
     distinct_on: [link_groups_select_column!]
@@ -5673,6 +5827,65 @@ type subscription_root {
   user(id: uuid!): users
 
   """
+  fetch data from the table: "user_connections"
+  """
+  user_connections(
+    """distinct select on columns"""
+    distinct_on: [user_connections_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_connections_order_by!]
+
+    """filter the rows returned"""
+    where: user_connections_bool_exp
+  ): [user_connections!]!
+
+  """
+  fetch aggregated fields from the table: "user_connections"
+  """
+  user_connections_aggregate(
+    """distinct select on columns"""
+    distinct_on: [user_connections_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_connections_order_by!]
+
+    """filter the rows returned"""
+    where: user_connections_bool_exp
+  ): user_connections_aggregate!
+
+  """
+  fetch data from the table: "user_connections" using primary key columns
+  """
+  user_connections_by_pk(generator_id: uuid!, id: uuid!): user_connections
+
+  """
+  fetch data from the table in a streaming manner: "user_connections"
+  """
+  user_connections_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [user_connections_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: user_connections_bool_exp
+  ): [user_connections!]!
+
+  """
   fetch data from the table: "auth.users"
   """
   users(
@@ -5744,12 +5957,308 @@ input timestamptz_comparison_exp {
   _nin: [timestamptz!]
 }
 
+"""Holds the user to user connection info"""
+type user_connections {
+  connected_at: timestamptz
+  created_at: timestamptz!
+  generator_id: uuid!
+  id: uuid!
+  scanner_id: uuid
+
+  """An object relationship"""
+  user_generator: users!
+
+  """An object relationship"""
+  user_scanner: users
+}
+
+"""
+aggregated selection of "user_connections"
+"""
+type user_connections_aggregate {
+  aggregate: user_connections_aggregate_fields
+  nodes: [user_connections!]!
+}
+
+input user_connections_aggregate_bool_exp {
+  count: user_connections_aggregate_bool_exp_count
+}
+
+input user_connections_aggregate_bool_exp_count {
+  arguments: [user_connections_select_column!]
+  distinct: Boolean
+  filter: user_connections_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "user_connections"
+"""
+type user_connections_aggregate_fields {
+  count(columns: [user_connections_select_column!], distinct: Boolean): Int!
+  max: user_connections_max_fields
+  min: user_connections_min_fields
+}
+
+"""
+order by aggregate values of table "user_connections"
+"""
+input user_connections_aggregate_order_by {
+  count: order_by
+  max: user_connections_max_order_by
+  min: user_connections_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "user_connections"
+"""
+input user_connections_arr_rel_insert_input {
+  data: [user_connections_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: user_connections_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "user_connections". All fields are combined with a logical 'AND'.
+"""
+input user_connections_bool_exp {
+  _and: [user_connections_bool_exp!]
+  _not: user_connections_bool_exp
+  _or: [user_connections_bool_exp!]
+  connected_at: timestamptz_comparison_exp
+  created_at: timestamptz_comparison_exp
+  generator_id: uuid_comparison_exp
+  id: uuid_comparison_exp
+  scanner_id: uuid_comparison_exp
+  user_generator: users_bool_exp
+  user_scanner: users_bool_exp
+}
+
+"""
+unique or primary key constraints on table "user_connections"
+"""
+enum user_connections_constraint {
+  """
+  unique or primary key constraint on columns "scanner_id", "generator_id"
+  """
+  user_connections_generator_id_scanner_id_key
+
+  """
+  unique or primary key constraint on columns "id", "generator_id"
+  """
+  user_connections_pkey
+}
+
+"""
+input type for inserting data into table "user_connections"
+"""
+input user_connections_insert_input {
+  connected_at: timestamptz
+  created_at: timestamptz
+  generator_id: uuid
+  id: uuid
+  scanner_id: uuid
+  user_generator: users_obj_rel_insert_input
+  user_scanner: users_obj_rel_insert_input
+}
+
+"""aggregate max on columns"""
+type user_connections_max_fields {
+  connected_at: timestamptz
+  created_at: timestamptz
+  generator_id: uuid
+  id: uuid
+  scanner_id: uuid
+}
+
+"""
+order by max() on columns of table "user_connections"
+"""
+input user_connections_max_order_by {
+  connected_at: order_by
+  created_at: order_by
+  generator_id: order_by
+  id: order_by
+  scanner_id: order_by
+}
+
+"""aggregate min on columns"""
+type user_connections_min_fields {
+  connected_at: timestamptz
+  created_at: timestamptz
+  generator_id: uuid
+  id: uuid
+  scanner_id: uuid
+}
+
+"""
+order by min() on columns of table "user_connections"
+"""
+input user_connections_min_order_by {
+  connected_at: order_by
+  created_at: order_by
+  generator_id: order_by
+  id: order_by
+  scanner_id: order_by
+}
+
+"""
+response of any mutation on the table "user_connections"
+"""
+type user_connections_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [user_connections!]!
+}
+
+"""
+on_conflict condition type for table "user_connections"
+"""
+input user_connections_on_conflict {
+  constraint: user_connections_constraint!
+  update_columns: [user_connections_update_column!]! = []
+  where: user_connections_bool_exp
+}
+
+"""Ordering options when selecting data from "user_connections"."""
+input user_connections_order_by {
+  connected_at: order_by
+  created_at: order_by
+  generator_id: order_by
+  id: order_by
+  scanner_id: order_by
+  user_generator: users_order_by
+  user_scanner: users_order_by
+}
+
+"""primary key columns input for table: user_connections"""
+input user_connections_pk_columns_input {
+  generator_id: uuid!
+  id: uuid!
+}
+
+"""
+select columns of table "user_connections"
+"""
+enum user_connections_select_column {
+  """column name"""
+  connected_at
+
+  """column name"""
+  created_at
+
+  """column name"""
+  generator_id
+
+  """column name"""
+  id
+
+  """column name"""
+  scanner_id
+}
+
+"""
+input type for updating data in table "user_connections"
+"""
+input user_connections_set_input {
+  connected_at: timestamptz
+  created_at: timestamptz
+  generator_id: uuid
+  id: uuid
+  scanner_id: uuid
+}
+
+"""
+Streaming cursor of the table "user_connections"
+"""
+input user_connections_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: user_connections_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input user_connections_stream_cursor_value_input {
+  connected_at: timestamptz
+  created_at: timestamptz
+  generator_id: uuid
+  id: uuid
+  scanner_id: uuid
+}
+
+"""
+update columns of table "user_connections"
+"""
+enum user_connections_update_column {
+  """column name"""
+  connected_at
+
+  """column name"""
+  created_at
+
+  """column name"""
+  generator_id
+
+  """column name"""
+  id
+
+  """column name"""
+  scanner_id
+}
+
+input user_connections_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: user_connections_set_input
+  where: user_connections_bool_exp!
+}
+
 """
 User account information. Don't modify its structure as Hasura Auth relies on it to function properly.
 """
 type users {
   activeMfaType: String
   avatarUrl: String!
+
+  """An array relationship"""
+  connections(
+    """distinct select on columns"""
+    distinct_on: [user_connections_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_connections_order_by!]
+
+    """filter the rows returned"""
+    where: user_connections_bool_exp
+  ): [user_connections!]!
+
+  """An aggregate relationship"""
+  connections_aggregate(
+    """distinct select on columns"""
+    distinct_on: [user_connections_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_connections_order_by!]
+
+    """filter the rows returned"""
+    where: user_connections_bool_exp
+  ): user_connections_aggregate!
   createdAt: timestamptz!
   currentChallenge: String
   defaultRole: String!
@@ -5763,6 +6272,78 @@ type users {
   id: uuid!
   isAnonymous: Boolean!
   lastSeen: timestamptz
+
+  """An array relationship"""
+  link_groups(
+    """distinct select on columns"""
+    distinct_on: [link_groups_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [link_groups_order_by!]
+
+    """filter the rows returned"""
+    where: link_groups_bool_exp
+  ): [link_groups!]!
+
+  """An aggregate relationship"""
+  link_groups_aggregate(
+    """distinct select on columns"""
+    distinct_on: [link_groups_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [link_groups_order_by!]
+
+    """filter the rows returned"""
+    where: link_groups_bool_exp
+  ): link_groups_aggregate!
+
+  """An array relationship"""
+  links(
+    """distinct select on columns"""
+    distinct_on: [links_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [links_order_by!]
+
+    """filter the rows returned"""
+    where: links_bool_exp
+  ): [links!]!
+
+  """An aggregate relationship"""
+  links_aggregate(
+    """distinct select on columns"""
+    distinct_on: [links_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [links_order_by!]
+
+    """filter the rows returned"""
+    where: links_bool_exp
+  ): links_aggregate!
   locale: String!
   metadata(
     """JSON select path"""
@@ -6002,6 +6583,8 @@ input users_bool_exp {
   _or: [users_bool_exp!]
   activeMfaType: String_comparison_exp
   avatarUrl: String_comparison_exp
+  connections: user_connections_bool_exp
+  connections_aggregate: user_connections_aggregate_bool_exp
   createdAt: timestamptz_comparison_exp
   currentChallenge: String_comparison_exp
   defaultRole: String_comparison_exp
@@ -6013,6 +6596,10 @@ input users_bool_exp {
   id: uuid_comparison_exp
   isAnonymous: Boolean_comparison_exp
   lastSeen: timestamptz_comparison_exp
+  link_groups: link_groups_bool_exp
+  link_groups_aggregate: link_groups_aggregate_bool_exp
+  links: links_bool_exp
+  links_aggregate: links_aggregate_bool_exp
   locale: String_comparison_exp
   metadata: jsonb_comparison_exp
   newEmail: citext_comparison_exp
@@ -6083,6 +6670,7 @@ input type for inserting data into table "auth.users"
 input users_insert_input {
   activeMfaType: String
   avatarUrl: String
+  connections: user_connections_arr_rel_insert_input
   createdAt: timestamptz
   currentChallenge: String
   defaultRole: String
@@ -6094,6 +6682,8 @@ input users_insert_input {
   id: uuid
   isAnonymous: Boolean
   lastSeen: timestamptz
+  link_groups: link_groups_arr_rel_insert_input
+  links: links_arr_rel_insert_input
   locale: String
   metadata: jsonb
   newEmail: citext
@@ -6247,6 +6837,7 @@ input users_on_conflict {
 input users_order_by {
   activeMfaType: order_by
   avatarUrl: order_by
+  connections_aggregate: user_connections_aggregate_order_by
   createdAt: order_by
   currentChallenge: order_by
   defaultRole: order_by
@@ -6258,6 +6849,8 @@ input users_order_by {
   id: order_by
   isAnonymous: order_by
   lastSeen: order_by
+  link_groups_aggregate: link_groups_aggregate_order_by
+  links_aggregate: links_aggregate_order_by
   locale: order_by
   metadata: order_by
   newEmail: order_by

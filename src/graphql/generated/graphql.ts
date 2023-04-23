@@ -2525,6 +2525,17 @@ export type Link_Groups_Aggregate = {
   nodes: Array<Link_Groups>;
 };
 
+export type Link_Groups_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Link_Groups_Aggregate_Bool_Exp_Count>;
+};
+
+export type Link_Groups_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Link_Groups_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<Link_Groups_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "link_groups" */
 export type Link_Groups_Aggregate_Fields = {
   __typename?: 'link_groups_aggregate_fields';
@@ -2538,6 +2549,20 @@ export type Link_Groups_Aggregate_Fields = {
 export type Link_Groups_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Link_Groups_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "link_groups" */
+export type Link_Groups_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Link_Groups_Max_Order_By>;
+  min?: InputMaybe<Link_Groups_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "link_groups" */
+export type Link_Groups_Arr_Rel_Insert_Input = {
+  data: Array<Link_Groups_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Link_Groups_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "link_groups". All fields are combined with a logical 'AND'. */
@@ -2585,6 +2610,16 @@ export type Link_Groups_Max_Fields = {
   user_id?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "link_groups" */
+export type Link_Groups_Max_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Link_Groups_Min_Fields = {
   __typename?: 'link_groups_min_fields';
@@ -2594,6 +2629,16 @@ export type Link_Groups_Min_Fields = {
   name?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
   user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "link_groups" */
+export type Link_Groups_Min_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "link_groups" */
@@ -3130,6 +3175,10 @@ export type Mutation_Root = {
   delete_links?: Maybe<Links_Mutation_Response>;
   /** delete single row from the table: "links" */
   delete_links_by_pk?: Maybe<Links>;
+  /** delete data from the table: "user_connections" */
+  delete_user_connections?: Maybe<User_Connections_Mutation_Response>;
+  /** delete single row from the table: "user_connections" */
+  delete_user_connections_by_pk?: Maybe<User_Connections>;
   /** insert a single row into the table: "auth.providers" */
   insertAuthProvider?: Maybe<AuthProviders>;
   /** insert a single row into the table: "auth.provider_requests" */
@@ -3178,6 +3227,10 @@ export type Mutation_Root = {
   insert_links?: Maybe<Links_Mutation_Response>;
   /** insert a single row into the table: "links" */
   insert_links_one?: Maybe<Links>;
+  /** insert data into the table: "user_connections" */
+  insert_user_connections?: Maybe<User_Connections_Mutation_Response>;
+  /** insert a single row into the table: "user_connections" */
+  insert_user_connections_one?: Maybe<User_Connections>;
   /** update single row of the table: "auth.providers" */
   updateAuthProvider?: Maybe<AuthProviders>;
   /** update single row of the table: "auth.provider_requests" */
@@ -3248,6 +3301,12 @@ export type Mutation_Root = {
   update_links_by_pk?: Maybe<Links>;
   /** update multiples rows of table: "links" */
   update_links_many?: Maybe<Array<Maybe<Links_Mutation_Response>>>;
+  /** update data of the table: "user_connections" */
+  update_user_connections?: Maybe<User_Connections_Mutation_Response>;
+  /** update single row of the table: "user_connections" */
+  update_user_connections_by_pk?: Maybe<User_Connections>;
+  /** update multiples rows of table: "user_connections" */
+  update_user_connections_many?: Maybe<Array<Maybe<User_Connections_Mutation_Response>>>;
   /** update multiples rows of table: "auth.users" */
   update_users_many?: Maybe<Array<Maybe<Users_Mutation_Response>>>;
 };
@@ -3394,6 +3453,19 @@ export type Mutation_RootDelete_LinksArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Links_By_PkArgs = {
   id: Scalars['Int'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_User_ConnectionsArgs = {
+  where: User_Connections_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_User_Connections_By_PkArgs = {
+  generator_id: Scalars['uuid'];
+  id: Scalars['uuid'];
 };
 
 
@@ -3562,6 +3634,20 @@ export type Mutation_RootInsert_LinksArgs = {
 export type Mutation_RootInsert_Links_OneArgs = {
   object: Links_Insert_Input;
   on_conflict?: InputMaybe<Links_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_User_ConnectionsArgs = {
+  objects: Array<User_Connections_Insert_Input>;
+  on_conflict?: InputMaybe<User_Connections_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_User_Connections_OneArgs = {
+  object: User_Connections_Insert_Input;
+  on_conflict?: InputMaybe<User_Connections_On_Conflict>;
 };
 
 
@@ -3828,6 +3914,26 @@ export type Mutation_RootUpdate_Links_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_User_ConnectionsArgs = {
+  _set?: InputMaybe<User_Connections_Set_Input>;
+  where: User_Connections_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_User_Connections_By_PkArgs = {
+  _set?: InputMaybe<User_Connections_Set_Input>;
+  pk_columns: User_Connections_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_User_Connections_ManyArgs = {
+  updates: Array<User_Connections_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Users_ManyArgs = {
   updates: Array<Users_Updates>;
 };
@@ -3904,9 +4010,9 @@ export type Query_Root = {
   files: Array<Files>;
   /** fetch aggregated fields from the table: "storage.files" */
   filesAggregate: Files_Aggregate;
-  /** fetch data from the table: "link_groups" */
+  /** An array relationship */
   link_groups: Array<Link_Groups>;
-  /** fetch aggregated fields from the table: "link_groups" */
+  /** An aggregate relationship */
   link_groups_aggregate: Link_Groups_Aggregate;
   /** fetch data from the table: "link_groups" using primary key columns */
   link_groups_by_pk?: Maybe<Link_Groups>;
@@ -3918,6 +4024,12 @@ export type Query_Root = {
   links_by_pk?: Maybe<Links>;
   /** fetch data from the table: "auth.users" using primary key columns */
   user?: Maybe<Users>;
+  /** fetch data from the table: "user_connections" */
+  user_connections: Array<User_Connections>;
+  /** fetch aggregated fields from the table: "user_connections" */
+  user_connections_aggregate: User_Connections_Aggregate;
+  /** fetch data from the table: "user_connections" using primary key columns */
+  user_connections_by_pk?: Maybe<User_Connections>;
   /** fetch data from the table: "auth.users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "auth.users" */
@@ -4183,6 +4295,30 @@ export type Query_RootUserArgs = {
 };
 
 
+export type Query_RootUser_ConnectionsArgs = {
+  distinct_on?: InputMaybe<Array<User_Connections_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Connections_Order_By>>;
+  where?: InputMaybe<User_Connections_Bool_Exp>;
+};
+
+
+export type Query_RootUser_Connections_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Connections_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Connections_Order_By>>;
+  where?: InputMaybe<User_Connections_Bool_Exp>;
+};
+
+
+export type Query_RootUser_Connections_By_PkArgs = {
+  generator_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4274,9 +4410,9 @@ export type Subscription_Root = {
   filesAggregate: Files_Aggregate;
   /** fetch data from the table in a streaming manner: "storage.files" */
   files_stream: Array<Files>;
-  /** fetch data from the table: "link_groups" */
+  /** An array relationship */
   link_groups: Array<Link_Groups>;
-  /** fetch aggregated fields from the table: "link_groups" */
+  /** An aggregate relationship */
   link_groups_aggregate: Link_Groups_Aggregate;
   /** fetch data from the table: "link_groups" using primary key columns */
   link_groups_by_pk?: Maybe<Link_Groups>;
@@ -4292,6 +4428,14 @@ export type Subscription_Root = {
   links_stream: Array<Links>;
   /** fetch data from the table: "auth.users" using primary key columns */
   user?: Maybe<Users>;
+  /** fetch data from the table: "user_connections" */
+  user_connections: Array<User_Connections>;
+  /** fetch aggregated fields from the table: "user_connections" */
+  user_connections_aggregate: User_Connections_Aggregate;
+  /** fetch data from the table: "user_connections" using primary key columns */
+  user_connections_by_pk?: Maybe<User_Connections>;
+  /** fetch data from the table in a streaming manner: "user_connections" */
+  user_connections_stream: Array<User_Connections>;
   /** fetch data from the table: "auth.users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "auth.users" */
@@ -4636,6 +4780,37 @@ export type Subscription_RootUserArgs = {
 };
 
 
+export type Subscription_RootUser_ConnectionsArgs = {
+  distinct_on?: InputMaybe<Array<User_Connections_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Connections_Order_By>>;
+  where?: InputMaybe<User_Connections_Bool_Exp>;
+};
+
+
+export type Subscription_RootUser_Connections_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Connections_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Connections_Order_By>>;
+  where?: InputMaybe<User_Connections_Bool_Exp>;
+};
+
+
+export type Subscription_RootUser_Connections_By_PkArgs = {
+  generator_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootUser_Connections_StreamArgs = {
+  batch_size: Scalars['Int'];
+  cursor: Array<InputMaybe<User_Connections_Stream_Cursor_Input>>;
+  where?: InputMaybe<User_Connections_Bool_Exp>;
+};
+
+
 export type Subscription_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4673,11 +4848,240 @@ export type Timestamptz_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['timestamptz']>>;
 };
 
+/** Holds the user to user connection info */
+export type User_Connections = {
+  __typename?: 'user_connections';
+  connected_at?: Maybe<Scalars['timestamptz']>;
+  created_at: Scalars['timestamptz'];
+  generator_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+  scanner_id?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  user_generator: Users;
+  /** An object relationship */
+  user_scanner?: Maybe<Users>;
+};
+
+/** aggregated selection of "user_connections" */
+export type User_Connections_Aggregate = {
+  __typename?: 'user_connections_aggregate';
+  aggregate?: Maybe<User_Connections_Aggregate_Fields>;
+  nodes: Array<User_Connections>;
+};
+
+export type User_Connections_Aggregate_Bool_Exp = {
+  count?: InputMaybe<User_Connections_Aggregate_Bool_Exp_Count>;
+};
+
+export type User_Connections_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<User_Connections_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+  filter?: InputMaybe<User_Connections_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "user_connections" */
+export type User_Connections_Aggregate_Fields = {
+  __typename?: 'user_connections_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<User_Connections_Max_Fields>;
+  min?: Maybe<User_Connections_Min_Fields>;
+};
+
+
+/** aggregate fields of "user_connections" */
+export type User_Connections_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<User_Connections_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "user_connections" */
+export type User_Connections_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<User_Connections_Max_Order_By>;
+  min?: InputMaybe<User_Connections_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "user_connections" */
+export type User_Connections_Arr_Rel_Insert_Input = {
+  data: Array<User_Connections_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<User_Connections_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "user_connections". All fields are combined with a logical 'AND'. */
+export type User_Connections_Bool_Exp = {
+  _and?: InputMaybe<Array<User_Connections_Bool_Exp>>;
+  _not?: InputMaybe<User_Connections_Bool_Exp>;
+  _or?: InputMaybe<Array<User_Connections_Bool_Exp>>;
+  connected_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  generator_id?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  scanner_id?: InputMaybe<Uuid_Comparison_Exp>;
+  user_generator?: InputMaybe<Users_Bool_Exp>;
+  user_scanner?: InputMaybe<Users_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "user_connections" */
+export enum User_Connections_Constraint {
+  /** unique or primary key constraint on columns "scanner_id", "generator_id" */
+  UserConnectionsGeneratorIdScannerIdKey = 'user_connections_generator_id_scanner_id_key',
+  /** unique or primary key constraint on columns "id", "generator_id" */
+  UserConnectionsPkey = 'user_connections_pkey'
+}
+
+/** input type for inserting data into table "user_connections" */
+export type User_Connections_Insert_Input = {
+  connected_at?: InputMaybe<Scalars['timestamptz']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  generator_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  scanner_id?: InputMaybe<Scalars['uuid']>;
+  user_generator?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  user_scanner?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type User_Connections_Max_Fields = {
+  __typename?: 'user_connections_max_fields';
+  connected_at?: Maybe<Scalars['timestamptz']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  generator_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  scanner_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "user_connections" */
+export type User_Connections_Max_Order_By = {
+  connected_at?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  generator_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  scanner_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type User_Connections_Min_Fields = {
+  __typename?: 'user_connections_min_fields';
+  connected_at?: Maybe<Scalars['timestamptz']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  generator_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  scanner_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "user_connections" */
+export type User_Connections_Min_Order_By = {
+  connected_at?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  generator_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  scanner_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "user_connections" */
+export type User_Connections_Mutation_Response = {
+  __typename?: 'user_connections_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<User_Connections>;
+};
+
+/** on_conflict condition type for table "user_connections" */
+export type User_Connections_On_Conflict = {
+  constraint: User_Connections_Constraint;
+  update_columns?: Array<User_Connections_Update_Column>;
+  where?: InputMaybe<User_Connections_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "user_connections". */
+export type User_Connections_Order_By = {
+  connected_at?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  generator_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  scanner_id?: InputMaybe<Order_By>;
+  user_generator?: InputMaybe<Users_Order_By>;
+  user_scanner?: InputMaybe<Users_Order_By>;
+};
+
+/** primary key columns input for table: user_connections */
+export type User_Connections_Pk_Columns_Input = {
+  generator_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "user_connections" */
+export enum User_Connections_Select_Column {
+  /** column name */
+  ConnectedAt = 'connected_at',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  GeneratorId = 'generator_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  ScannerId = 'scanner_id'
+}
+
+/** input type for updating data in table "user_connections" */
+export type User_Connections_Set_Input = {
+  connected_at?: InputMaybe<Scalars['timestamptz']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  generator_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  scanner_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "user_connections" */
+export type User_Connections_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: User_Connections_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type User_Connections_Stream_Cursor_Value_Input = {
+  connected_at?: InputMaybe<Scalars['timestamptz']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  generator_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  scanner_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "user_connections" */
+export enum User_Connections_Update_Column {
+  /** column name */
+  ConnectedAt = 'connected_at',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  GeneratorId = 'generator_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  ScannerId = 'scanner_id'
+}
+
+export type User_Connections_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<User_Connections_Set_Input>;
+  where: User_Connections_Bool_Exp;
+};
+
 /** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
 export type Users = {
   __typename?: 'users';
   activeMfaType?: Maybe<Scalars['String']>;
   avatarUrl: Scalars['String'];
+  /** An array relationship */
+  connections: Array<User_Connections>;
+  /** An aggregate relationship */
+  connections_aggregate: User_Connections_Aggregate;
   createdAt: Scalars['timestamptz'];
   currentChallenge?: Maybe<Scalars['String']>;
   defaultRole: Scalars['String'];
@@ -4690,6 +5094,14 @@ export type Users = {
   id: Scalars['uuid'];
   isAnonymous: Scalars['Boolean'];
   lastSeen?: Maybe<Scalars['timestamptz']>;
+  /** An array relationship */
+  link_groups: Array<Link_Groups>;
+  /** An aggregate relationship */
+  link_groups_aggregate: Link_Groups_Aggregate;
+  /** An array relationship */
+  links: Array<Links>;
+  /** An aggregate relationship */
+  links_aggregate: Links_Aggregate;
   locale: Scalars['String'];
   metadata?: Maybe<Scalars['jsonb']>;
   newEmail?: Maybe<Scalars['citext']>;
@@ -4719,6 +5131,66 @@ export type Users = {
   userProviders: Array<AuthUserProviders>;
   /** An aggregate relationship */
   userProviders_aggregate: AuthUserProviders_Aggregate;
+};
+
+
+/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
+export type UsersConnectionsArgs = {
+  distinct_on?: InputMaybe<Array<User_Connections_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Connections_Order_By>>;
+  where?: InputMaybe<User_Connections_Bool_Exp>;
+};
+
+
+/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
+export type UsersConnections_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Connections_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Connections_Order_By>>;
+  where?: InputMaybe<User_Connections_Bool_Exp>;
+};
+
+
+/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
+export type UsersLink_GroupsArgs = {
+  distinct_on?: InputMaybe<Array<Link_Groups_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Link_Groups_Order_By>>;
+  where?: InputMaybe<Link_Groups_Bool_Exp>;
+};
+
+
+/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
+export type UsersLink_Groups_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Link_Groups_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Link_Groups_Order_By>>;
+  where?: InputMaybe<Link_Groups_Bool_Exp>;
+};
+
+
+/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
+export type UsersLinksArgs = {
+  distinct_on?: InputMaybe<Array<Links_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Links_Order_By>>;
+  where?: InputMaybe<Links_Bool_Exp>;
+};
+
+
+/** User account information. Don't modify its structure as Hasura Auth relies on it to function properly. */
+export type UsersLinks_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Links_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Links_Order_By>>;
+  where?: InputMaybe<Links_Bool_Exp>;
 };
 
 
@@ -4882,6 +5354,8 @@ export type Users_Bool_Exp = {
   _or?: InputMaybe<Array<Users_Bool_Exp>>;
   activeMfaType?: InputMaybe<String_Comparison_Exp>;
   avatarUrl?: InputMaybe<String_Comparison_Exp>;
+  connections?: InputMaybe<User_Connections_Bool_Exp>;
+  connections_aggregate?: InputMaybe<User_Connections_Aggregate_Bool_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   currentChallenge?: InputMaybe<String_Comparison_Exp>;
   defaultRole?: InputMaybe<String_Comparison_Exp>;
@@ -4893,6 +5367,10 @@ export type Users_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   isAnonymous?: InputMaybe<Boolean_Comparison_Exp>;
   lastSeen?: InputMaybe<Timestamptz_Comparison_Exp>;
+  link_groups?: InputMaybe<Link_Groups_Bool_Exp>;
+  link_groups_aggregate?: InputMaybe<Link_Groups_Aggregate_Bool_Exp>;
+  links?: InputMaybe<Links_Bool_Exp>;
+  links_aggregate?: InputMaybe<Links_Aggregate_Bool_Exp>;
   locale?: InputMaybe<String_Comparison_Exp>;
   metadata?: InputMaybe<Jsonb_Comparison_Exp>;
   newEmail?: InputMaybe<Citext_Comparison_Exp>;
@@ -4945,6 +5423,7 @@ export type Users_Delete_Key_Input = {
 export type Users_Insert_Input = {
   activeMfaType?: InputMaybe<Scalars['String']>;
   avatarUrl?: InputMaybe<Scalars['String']>;
+  connections?: InputMaybe<User_Connections_Arr_Rel_Insert_Input>;
   createdAt?: InputMaybe<Scalars['timestamptz']>;
   currentChallenge?: InputMaybe<Scalars['String']>;
   defaultRole?: InputMaybe<Scalars['String']>;
@@ -4956,6 +5435,8 @@ export type Users_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   isAnonymous?: InputMaybe<Scalars['Boolean']>;
   lastSeen?: InputMaybe<Scalars['timestamptz']>;
+  link_groups?: InputMaybe<Link_Groups_Arr_Rel_Insert_Input>;
+  links?: InputMaybe<Links_Arr_Rel_Insert_Input>;
   locale?: InputMaybe<Scalars['String']>;
   metadata?: InputMaybe<Scalars['jsonb']>;
   newEmail?: InputMaybe<Scalars['citext']>;
@@ -5100,6 +5581,7 @@ export type Users_On_Conflict = {
 export type Users_Order_By = {
   activeMfaType?: InputMaybe<Order_By>;
   avatarUrl?: InputMaybe<Order_By>;
+  connections_aggregate?: InputMaybe<User_Connections_Aggregate_Order_By>;
   createdAt?: InputMaybe<Order_By>;
   currentChallenge?: InputMaybe<Order_By>;
   defaultRole?: InputMaybe<Order_By>;
@@ -5111,6 +5593,8 @@ export type Users_Order_By = {
   id?: InputMaybe<Order_By>;
   isAnonymous?: InputMaybe<Order_By>;
   lastSeen?: InputMaybe<Order_By>;
+  link_groups_aggregate?: InputMaybe<Link_Groups_Aggregate_Order_By>;
+  links_aggregate?: InputMaybe<Links_Aggregate_Order_By>;
   locale?: InputMaybe<Order_By>;
   metadata?: InputMaybe<Order_By>;
   newEmail?: InputMaybe<Order_By>;

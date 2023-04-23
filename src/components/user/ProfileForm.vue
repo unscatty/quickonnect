@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { useNhostClient, useUserData } from '@nhost/vue'
-import { useMutation } from '@vue/apollo-composable'
+// import { useMutation } from '@vue/apollo-composable'
+import { useMutation } from '@tanstack/vue-query'
 import { USER_UPDATE_METADATA_MUTATION } from '~/graphql/user/update-metadata.mutation'
+import { VariablesOf } from '@graphql-typed-document-node/core'
+import gqlClient from '~/services/graphql-client'
 
 const { nhost } = useNhostClient()
 
@@ -13,12 +16,19 @@ const firstName = ref(<string>userMetadata?.firstName ?? '')
 const lastName = ref(<string>userMetadata?.lastName ?? '')
 const about = ref(<string>userMetadata?.about ?? '')
 
-const { mutate, loading } = useMutation(USER_UPDATE_METADATA_MUTATION)
+// const { mutate, loading } = useMutation(USER_UPDATE_METADATA_MUTATION)
+
+const { mutate: mutUpdateUserProfile, isLoading } = useMutation({
+  mutationFn: async (
+    updateUserProfileParams: VariablesOf<typeof USER_UPDATE_METADATA_MUTATION>
+  ) =>
+    gqlClient.request(USER_UPDATE_METADATA_MUTATION, updateUserProfileParams),
+})
 
 const updateUserProfile = async (event: Event) => {
   event.preventDefault()
 
-  await mutate({
+  mutUpdateUserProfile({
     id: userData.value?.id,
     displayName: displayName.value,
     metadata: {
@@ -27,6 +37,7 @@ const updateUserProfile = async (event: Event) => {
       about: about.value,
     },
   })
+
   await nhost.auth.refreshSession()
 }
 </script>
@@ -160,7 +171,7 @@ const updateUserProfile = async (event: Event) => {
           class="min-w-20 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           <div
-            v-if="loading"
+            v-if="isLoading"
             class="inline-block h-5 w-5 animate-spin rounded-full border-3 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"
             role="status"
           ></div>

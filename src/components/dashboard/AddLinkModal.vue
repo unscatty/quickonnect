@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { VariablesOf } from '@graphql-typed-document-node/core'
 import {
   Dialog,
   DialogOverlay,
@@ -7,9 +8,10 @@ import {
   TransitionRoot,
 } from '@headlessui/vue'
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
-import { useMutation as useGQLMutation } from '@vue/apollo-composable'
+// import { useMutation as useGQLMutation } from '@vue/apollo-composable'
 import { graphql, useFragment } from '~/graphql/generated'
 import { LINK_INFO_FRAGMENT } from '~/graphql/links/info.fragment'
+import gqlClient from '~/services/graphql-client'
 
 const queryClient = useQueryClient()
 
@@ -34,21 +36,24 @@ const defaultLinkForm = {
 const insertLinkForm = ref(structuredClone(defaultLinkForm))
 
 // Add link mutation
-const { mutate: createNewLink } = useGQLMutation(
-  graphql(`
-    mutation AddLink($linkData: links_insert_input!) {
-      newLink: insert_links_one(object: $linkData) {
-        ...LinkInfo
-      }
+const createNewLinkMutation = graphql(`
+  mutation AddLink($linkData: links_insert_input!) {
+    newLink: insert_links_one(object: $linkData) {
+      ...LinkInfo
     }
-  `)
-)
+  }
+`)
 
 const { mutate } = useMutation({
-  mutationFn: async (...createParams: Parameters<typeof createNewLink>) => {
-    const createdLink = await createNewLink(...createParams)
+  mutationFn: async (
+    createParams: VariablesOf<typeof createNewLinkMutation>
+  ) => {
+    const createdLink = await gqlClient.request(
+      createNewLinkMutation,
+      createParams
+    )
 
-    return useFragment(LINK_INFO_FRAGMENT, createdLink?.data?.newLink)
+    return useFragment(LINK_INFO_FRAGMENT, createdLink?.newLink)
   },
   // Optimistically insert new value
   onMutate: async (newLink) => {
