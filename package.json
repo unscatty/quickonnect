@@ -17,7 +17,7 @@
     "codegen": "graphql-codegen --config graphql-codegen.ts"
   },
   "dependencies": {
-    "@headlessui/vue": "^1.7.13",
+    "@headlessui/vue": "0.0.0-insiders.159f04d",
     "@iconify-json/heroicons": "^1.1.10",
     "@julr/unocss-preset-forms": "^0.0.5",
     "@nhost/vue": "^1.13.21",
@@ -92,5 +92,10 @@
   },
   "lint-staged": {
     "*": "eslint --fix"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@headlessui/vue@0.0.0-insiders.159f04d": "patches/@headlessui__vue@0.0.0-insiders.159f04d.patch"
+    }
   }
 }

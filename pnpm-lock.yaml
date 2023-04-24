@@ -1,9 +1,14 @@
 lockfileVersion: '6.0'
 
+patchedDependencies:
+  '@headlessui/vue@0.0.0-insiders.159f04d':
+    hash: ekupqayqxb66w57fziwd7gk22q
+    path: patches/@headlessui__vue@0.0.0-insiders.159f04d.patch
+
 dependencies:
   '@headlessui/vue':
-    specifier: ^1.7.13
-    version: 1.7.13(vue@3.3.0-beta.1)
+    specifier: 0.0.0-insiders.159f04d
+    version: 0.0.0-insiders.159f04d(patch_hash=ekupqayqxb66w57fziwd7gk22q)(vue@3.3.0-beta.1)
   '@iconify-json/heroicons':
     specifier: ^1.1.10
     version: 1.1.10
@@ -2393,14 +2398,15 @@ packages:
     dependencies:
       graphql: 16.6.0
 
-  /@headlessui/vue@1.7.13(vue@3.3.0-beta.1):
-    resolution: {integrity: sha512-obG5TdPdBDfs+jiA1mY29LPFqyJl93Q90EL86ontfRe1B6XvbjPkx+x1aAC5DA18bXbb0Juni1ayDbXo0w1u0A==}
+  /@headlessui/vue@0.0.0-insiders.159f04d(patch_hash=ekupqayqxb66w57fziwd7gk22q)(vue@3.3.0-beta.1):
+    resolution: {integrity: sha512-CNjKnSrWEAWnANdzb+w5K+SJHoVr2/lKvFQG0xa6OxgtMTjEc0AgjxuLx6tCtMYmLQQuS4uG4j7OjbMDudbAAg==}
     engines: {node: '>=10'}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
       vue: 3.3.0-beta.1
     dev: false
+    patched: true
 
   /@humanwhocodes/config-array@0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}
