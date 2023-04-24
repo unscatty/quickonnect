@@ -3,7 +3,10 @@
     "baseUrl": ".",
     "module": "ESNext",
     "target": "ESNext",
-    "lib": ["DOM", "ESNext"],
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
     "strict": true,
     "esModuleInterop": true,
     "jsx": "preserve",
@@ -25,14 +28,22 @@
       "unplugin-vue-macros/macros-global"
     ],
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": [
+        "src/*"
+      ]
     }
   },
   "vueCompilerOptions": {
+    "target": 3,
     "plugins": [
       "@vue-macros/volar/define-model",
-      "@vue-macros/volar/define-slots"
+      "@vue-macros/volar/define-slots",
+      "@vue-macros/volar/define-props-refs"
     ]
   },
-  "exclude": ["dist", "node_modules", "cypress"]
+  "exclude": [
+    "dist",
+    "node_modules",
+    "cypress"
+  ]
 }

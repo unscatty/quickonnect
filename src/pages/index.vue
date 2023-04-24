@@ -1,5 +1,11 @@
 <script setup lang="ts">
+import { QrcodeSuccessCallback } from 'html5-qrcode'
+
 const isAddLinkModalOpen = ref(false)
+
+const onScanSuccess: QrcodeSuccessCallback = (decodedText, decodedResult) => {
+  console.debug({ decodedText, decodedResult })
+}
 </script>
 
 <template>
@@ -9,9 +15,11 @@ const isAddLinkModalOpen = ref(false)
     >
       <!-- Start main area-->
       <div class="absolute inset-0 py-6 px-4 sm:px-6 lg:px-8">
-        <div
-          class="h-full border-2 border-gray-200 border-dashed rounded-lg"
-        ></div>
+        <div class="h-full border-2 border-gray-200 border-dashed rounded-lg">
+          <QRScanModal
+            @scan-success="onScanSuccess"
+          />
+        </div>
       </div>
       <!-- End main area -->
     </main>
