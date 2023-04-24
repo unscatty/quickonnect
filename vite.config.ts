@@ -21,6 +21,7 @@ import {
   getRemoteSchema,
   printSchemaToFile,
 } from './vite/utils/get-graphl-schema'
+import { transformShortVmodel } from '@vue-macros/short-vmodel'
 
 export default defineConfig(async ({ mode }) => {
   // Fetch schema from endpoint to a file
@@ -69,6 +70,15 @@ export default defineConfig(async ({ mode }) => {
           vue: Vue({
             include: [/\.vue$/, /\.md$/],
             reactivityTransform: true,
+            template: {
+              compilerOptions: {
+                nodeTransforms: [
+                  transformShortVmodel({
+                    prefix: '$',
+                  }),
+                ],
+              },
+            }
           }),
         },
       }),

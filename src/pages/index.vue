@@ -44,7 +44,7 @@ const isAddLinkModalOpen = ref(false)
       </div>
       <!-- End secondary column -->
     </aside>
-    <AddLinkModal v-model:is-open="isAddLinkModalOpen" />
+    <AddLinkModal $is-open="isAddLinkModalOpen" />
   </div>
 </template>
 

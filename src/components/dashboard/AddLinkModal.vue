@@ -189,7 +189,7 @@ const addNewLink = async () => {
                     Icon
                   </label>
                   <div class="mt-1 sm:mt-0 sm:col-span-2">
-                    <IconDropdown v-model:selected-icon="insertLinkForm.type" />
+                    <IconDropdown $selected-icon="insertLinkForm.type" />
                   </div>
                 </div>
                 <div class="flex justify-end gap-4">
