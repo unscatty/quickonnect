@@ -26,13 +26,20 @@ const emit = defineEmits(['update:isOpen'])
 
 const isOpen = useVModel(props, 'isOpen', emit)
 
-const defaultLinkForm = {
+type LinkFormData = {
+  name: string
+  url: string
+  type: string
+}
+
+const defaultLinkForm: LinkFormData = {
   name: '',
   url: '',
   type: 'i-heroicons:link',
 }
+
 // Bind form to ref value
-const insertLinkForm = ref(structuredClone(defaultLinkForm))
+const insertLinkForm = ref<LinkFormData>(structuredClone(defaultLinkForm))
 
 // Add link mutation
 const createNewLinkMutation = graphql(`
@@ -189,7 +196,7 @@ const addNewLink = async () => {
                     Icon
                   </label>
                   <div class="mt-1 sm:mt-0 sm:col-span-2">
-                    <IconDropdown v-model:selected-icon="insertLinkForm.type" />
+                    <IconDropdown $selected-icon="insertLinkForm.type" />
                   </div>
                 </div>
                 <div class="flex justify-end gap-4">

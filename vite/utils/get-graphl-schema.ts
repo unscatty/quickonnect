@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 import path from 'node:path'
 import fs from 'node:fs'
-import mkdirp from 'mkdirp'
+import { mkdirp } from 'mkdirp'
 
 import { getIntrospectionQuery } from 'graphql/utilities/getIntrospectionQuery'
 import { buildClientSchema } from 'graphql/utilities/buildClientSchema'
