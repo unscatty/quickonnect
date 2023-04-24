@@ -2,6 +2,7 @@
 import { QrcodeSuccessCallback } from 'html5-qrcode'
 
 const isAddLinkModalOpen = ref(false)
+const isQrScanModalOpen = ref(false)
 
 const onScanSuccess: QrcodeSuccessCallback = (decodedText, decodedResult) => {
   console.debug({ decodedText, decodedResult })
@@ -16,9 +17,17 @@ const onScanSuccess: QrcodeSuccessCallback = (decodedText, decodedResult) => {
       <!-- Start main area-->
       <div class="absolute inset-0 py-6 px-4 sm:px-6 lg:px-8">
         <div class="h-full border-2 border-gray-200 border-dashed rounded-lg">
-          <QRScanModal
-            @scan-success="onScanSuccess"
-          />
+          <button
+            type="button"
+            class="h-8 inline-flex flex-0 items-center px-4 py-0 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-indigo-600"
+            hover="bg-indigo-700"
+            focus="outline-none ring-2 ring-offset-2 ring-indigo-500"
+            @click="isQrScanModalOpen = true"
+          >
+            <!-- Heroicon name: solid/plus -->
+            <div i-heroicons:plus-20-solid class="-ml-1 mr-2 h-5 w-5" />
+            <span>Open QR</span>
+          </button>
         </div>
       </div>
       <!-- End main area -->
@@ -52,6 +61,7 @@ const onScanSuccess: QrcodeSuccessCallback = (decodedText, decodedResult) => {
       </div>
       <!-- End secondary column -->
     </aside>
+    <QRScanModal $is-open="isQrScanModalOpen" @scan-success="onScanSuccess" />
     <AddLinkModal $is-open="isAddLinkModalOpen" />
   </div>
 </template>

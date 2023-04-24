@@ -81,7 +81,7 @@ export default defineConfig(async ({ mode }) => {
             },
           }),
         },
-        betterDefine: true,
+        betterDefine: false,
       }),
 
       // https://github.com/hannoeru/vite-plugin-pages
