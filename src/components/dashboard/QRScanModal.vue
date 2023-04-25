@@ -6,18 +6,31 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue'
+import { breakpointsTailwind } from '@vueuse/core'
 import {
-  Html5Qrcode,
   Html5QrcodeCameraScanConfig,
-  Html5QrcodeScannerState,
   QrcodeSuccessCallback,
 } from 'html5-qrcode'
+
+const {
+  isScannerActive,
+  startScanning: startQrScanning,
+  stopScanning,
+  clearScanner,
+} = useQrScanner('qr-code-full-region')
 
 const props = withDefaults(
   defineProps<Html5QrcodeCameraScanConfig & { isOpen?: boolean }>(),
   {
     fps: 5,
-    qrbox: 300,
+    qrbox: () => {
+      const breakpoints = useBreakpoints(breakpointsTailwind)
+      const smAndSmaller = breakpoints.smallerOrEqual('sm')
+
+      if (smAndSmaller.value) return 200
+
+      return 300
+    },
     isOpen: false,
   }
 )
@@ -25,23 +38,6 @@ const props = withDefaults(
 const emit = defineEmits(['scanSuccess', 'update:isOpen'])
 
 const isOpen = useVModel(props, 'isOpen', emit)
-
-let qrCodeScanner: Html5Qrcode | null = null
-
-const scannerState = ref<Html5QrcodeScannerState>(
-  Html5QrcodeScannerState.UNKNOWN
-)
-
-const isScannerActive = computed(
-  () =>
-    scannerState.value === Html5QrcodeScannerState.SCANNING ||
-    scannerState.value === Html5QrcodeScannerState.PAUSED
-)
-
-const updateScannerState = () => {
-  scannerState.value =
-    qrCodeScanner?.getState() ?? Html5QrcodeScannerState.UNKNOWN
-}
 
 const onScanSuccess: QrcodeSuccessCallback = (decodedText, decodedResult) => {
   emit('scanSuccess', decodedText, decodedResult)
@@ -58,34 +54,12 @@ const close = async () => {
 }
 
 const startScanning = async () => {
-  qrCodeScanner ??= new Html5Qrcode('qr-code-full-region', false)
-
-  if (qrCodeScanner) {
-    await qrCodeScanner.start(
-      { facingMode: 'environment' },
-      props,
-      onScanSuccess,
-      undefined
-    )
-
-    updateScannerState()
-  }
-}
-
-const stopScanning = async () => {
-  if (qrCodeScanner) {
-    await qrCodeScanner.stop()
-
-    updateScannerState()
-  }
-}
-
-const clearScanner = () => {
-  if (qrCodeScanner) {
-    qrCodeScanner.clear()
-
-    updateScannerState()
-  }
+  await startQrScanning(
+    { facingMode: 'environment' },
+    props,
+    onScanSuccess,
+    undefined
+  )
 }
 
 onUnmounted(async () => {
