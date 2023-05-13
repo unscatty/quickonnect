@@ -5,10 +5,16 @@ import {
   DialogTitle,
   TransitionChild,
   TransitionRoot,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
 } from '@headlessui/vue'
 import { breakpointsTailwind } from '@vueuse/core'
 import {
+  CameraDevice,
   Html5QrcodeCameraScanConfig,
+  Html5QrcodeResult,
   QrcodeSuccessCallback,
 } from 'html5-qrcode'
 
@@ -17,20 +23,21 @@ const {
   startScanning: startQrScanning,
   stopScanning,
   clearScanner,
+  getAvailableCameras,
+  isTorchSupported,
+  updateIsTorchSupported,
+  toggleTorch,
+  isTorchEnabled,
+  availableCameras,
+  selectedCamera,
+  getActiveCamera,
+  hasAvailableCameras,
 } = useQrScanner('qr-code-full-region')
 
 const props = withDefaults(
   defineProps<Html5QrcodeCameraScanConfig & { isOpen?: boolean }>(),
   {
     fps: 5,
-    qrbox: () => {
-      const breakpoints = useBreakpoints(breakpointsTailwind)
-      const smAndSmaller = breakpoints.smallerOrEqual('sm')
-
-      if (smAndSmaller.value) return 200
-
-      return 300
-    },
     isOpen: false,
   }
 )
@@ -39,8 +46,19 @@ const emit = defineEmits(['scanSuccess', 'update:isOpen'])
 
 const isOpen = useVModel(props, 'isOpen', emit)
 
+const qrResult = ref<Html5QrcodeResult | undefined>()
+
 const onScanSuccess: QrcodeSuccessCallback = (decodedText, decodedResult) => {
+  qrResult.value = decodedResult
   emit('scanSuccess', decodedText, decodedResult)
+}
+
+const smOrLess = useBreakpoints(breakpointsTailwind).smallerOrEqual('sm')
+
+const computeQrBox = (
+  defaultValue: Html5QrcodeCameraScanConfig['qrbox'] = 300
+): Html5QrcodeCameraScanConfig['qrbox'] => {
+  return smOrLess.value ? 180 : defaultValue ?? 300
 }
 
 const close = async () => {
@@ -54,19 +72,55 @@ const close = async () => {
 }
 
 const startScanning = async () => {
-  await startQrScanning(
-    { facingMode: 'environment' },
-    props,
-    onScanSuccess,
-    undefined
-  )
+  try {
+    if (!hasAvailableCameras.value) {
+      availableCameras.value = await getAvailableCameras()
+    }
+
+    await startQrScanning(
+      selectedCamera.value?.id ?? { facingMode: 'environment' },
+      {
+        ...props,
+        qrbox: computeQrBox(props.qrbox),
+      },
+      onScanSuccess,
+      undefined
+    )
+
+    // Get the selected camera if not set already
+    selectedCamera.value ??= getActiveCamera()
+
+    updateIsTorchSupported()
+  } catch (error) {
+    console.error(error)
+  }
 }
+
+const switchCamera = async (camera: CameraDevice) => {
+  if (selectedCamera.value?.id === camera.id) return
+
+  selectedCamera.value = camera
+
+  try {
+    await stopScanning()
+    await startScanning()
+
+    updateIsTorchSupported()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+// Asks for camera permission as soon as the modal is opened
+const stopIsOpenWatcher = whenever(isOpen, startScanning, {
+  flush: 'post',
+})
 
 onUnmounted(async () => {
   try {
     await stopScanning()
-
     clearScanner()
+    stopIsOpenWatcher()
   } catch (error) {
     console.error(error)
   }
@@ -134,22 +188,76 @@ onUnmounted(async () => {
                       class="relative z-99 inline-flex shadow-sm rounded-md p-1"
                       sm="p-2"
                     >
+                      <Menu as="span" class="-ml-px relative block">
+                        <MenuButton
+                          v-if="hasAvailableCameras"
+                          class="relative inline-flex gap-1 items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500"
+                          :class="isTorchSupported ? '' : 'rounded-r-md'"
+                          hover="bg-gray-50"
+                          focus="z-10 outline-none ring-1 ring-indigo-500 border-indigo-500"
+                        >
+                          <span class="sr-only">Open options</span>
+                          <div
+                            i-mdi:camera-switch
+                            class="mx-auto h-5 w-5 text-gray-400"
+                            aria-hidden="true"
+                          />
+                          <div
+                            i-heroicons:chevron-down
+                            class="h-5 w-5"
+                            aria-hidden="true"
+                          />
+                        </MenuButton>
+                        <transition
+                          enter-active-class="transition ease-out duration-100"
+                          enter-from-class="transform opacity-0 scale-95"
+                          enter-to-class="transform opacity-100 scale-100"
+                          leave-active-class="transition ease-in duration-75"
+                          leave-from-class="transform opacity-100 scale-100"
+                          leave-to-class="transform opacity-0 scale-95"
+                        >
+                          <MenuItems
+                            class="origin-top-right absolute right-0 mt-2 -mr-1 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                          >
+                            <div class="py-1">
+                              <MenuItem
+                                v-for="camera in availableCameras"
+                                :key="camera.id"
+                                v-slot="{ active }"
+                                as="button"
+                                @click="switchCamera(camera)"
+                              >
+                                <!-- :href="item.href" -->
+                                <p
+                                  :class="[
+                                    active
+                                      ? 'bg-gray-100 text-gray-900'
+                                      : 'text-gray-700',
+                                    'block px-4 py-2 text-sm',
+                                  ]"
+                                >
+                                  {{ camera.label }}
+                                </p>
+                              </MenuItem>
+                            </div>
+                          </MenuItems>
+                        </transition>
+                      </Menu>
                       <button
-                        type="button"
-                        class="relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-                      >
-                        <div
-                          i-mdi:camera-switch
-                          class="-ml-1 mr-2 h-5 w-5 text-gray-400"
-                          aria-hidden="true"
-                        />
-                        Bookmark
-                      </button>
-                      <button
+                        v-if="isTorchSupported"
                         type="button"
                         class="-ml-px relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+                        @click="toggleTorch"
                       >
-                        12k
+                        <div
+                          class="mx-auto h-5 w-5 text-gray-400"
+                          :class="
+                            isTorchEnabled
+                              ? 'i-mdi:flashlight'
+                              : 'i-mdi:flashlight-off'
+                          "
+                          aria-hidden="true"
+                        />
                       </button>
                     </span>
                   </div>
@@ -181,23 +289,14 @@ onUnmounted(async () => {
                       </button>
                     </div>
                   </div>
-                  <div></div>
+                  <p class="text-black">{{ qrResult }}</p>
                 </div>
               </div>
             </div>
-            <div
-              class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense"
-            >
+            <div class="mt-5">
               <button
                 type="button"
-                class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm"
-                @click="startScanning"
-              >
-                Deactivate
-              </button>
-              <button
-                type="button"
-                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
+                class="mt-3 mx-auto w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
                 @click="close"
               >
                 Cancelar
