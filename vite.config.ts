@@ -8,6 +8,7 @@ import Shiki from 'markdown-it-shiki'
 import Unocss from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers'
 import VueMacros from 'unplugin-vue-macros'
 import Codegen from 'vite-plugin-graphql-codegen'
 import Inspect from 'vite-plugin-inspect'
@@ -114,6 +115,7 @@ export default defineConfig(async ({ mode }) => {
 
       // https://github.com/antfu/unplugin-vue-components
       Components({
+        resolvers: [HeadlessUiResolver()],
         // allow auto load markdown components under `./src/components/`
         extensions: ['vue', 'md'],
         // allow auto import and register components used in markdown

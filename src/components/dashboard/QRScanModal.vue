@@ -1,15 +1,4 @@
 <script setup lang="ts">
-import {
-  Dialog,
-  DialogOverlay,
-  DialogTitle,
-  TransitionChild,
-  TransitionRoot,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-} from '@headlessui/vue'
 import { breakpointsTailwind } from '@vueuse/core'
 import {
   CameraDevice,

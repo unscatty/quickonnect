@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { AVAILABLE_ICONS } from '~/constants/avalilable-icons'
 
 const iconOptions = AVAILABLE_ICONS

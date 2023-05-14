@@ -1,15 +1,4 @@
 <script setup lang="ts">
-import {
-  Dialog,
-  DialogOverlay,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  TransitionChild,
-  TransitionRoot,
-} from '@headlessui/vue'
-
 const sidebarOpen = ref(false)
 
 const navigation = [

@@ -1,12 +1,5 @@
 <script setup lang="ts">
 import { VariablesOf } from '@graphql-typed-document-node/core'
-import {
-  Dialog,
-  DialogOverlay,
-  DialogTitle,
-  TransitionChild,
-  TransitionRoot,
-} from '@headlessui/vue'
 import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { graphql, useFragment } from '~/graphql/generated'
 import { LINK_INFO_FRAGMENT } from '~/graphql/links/info.fragment'
