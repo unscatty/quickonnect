@@ -75,6 +75,7 @@
     "unplugin-auto-import": "^0.15.3",
     "unplugin-vue-components": "^0.24.1",
     "unplugin-vue-macros": "^2.1.6",
+    "unplugin-vue-router": "^0.6.4",
     "vite": "^4.3.5",
     "vite-plugin-graphql-codegen": "^3.2.1",
     "vite-plugin-inspect": "^0.7.26",

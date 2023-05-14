@@ -7,12 +7,13 @@ import LinkAttributes from 'markdown-it-link-attributes'
 import Shiki from 'markdown-it-shiki'
 import Unocss from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
 import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers'
+import Components from 'unplugin-vue-components/vite'
 import VueMacros from 'unplugin-vue-macros'
 import Codegen from 'vite-plugin-graphql-codegen'
 import Inspect from 'vite-plugin-inspect'
-import Pages from 'vite-plugin-pages'
+import { transformShortVmodel } from '@vue-macros/short-vmodel'
+import { VueRouterAutoImports } from 'unplugin-vue-router'
 import { VitePWA } from 'vite-plugin-pwa'
 import Inspector from 'vite-plugin-vue-inspector'
 import Layouts from 'vite-plugin-vue-layouts'
@@ -22,7 +23,7 @@ import {
   getRemoteSchema,
   printSchemaToFile,
 } from './vite/utils/get-graphl-schema'
-import { transformShortVmodel } from '@vue-macros/short-vmodel'
+import VueRouter from 'unplugin-vue-router/vite'
 
 export default defineConfig(async ({ mode }) => {
   // Fetch schema from endpoint to a file
@@ -65,6 +66,10 @@ export default defineConfig(async ({ mode }) => {
 
     plugins: [
       // Preview(),
+      VueRouter({
+        dataFetching: true,
+        extensions: ['.vue', '.md'],
+      }),
 
       VueMacros.vite({
         plugins: {
@@ -85,11 +90,6 @@ export default defineConfig(async ({ mode }) => {
         betterDefine: false,
       }),
 
-      // https://github.com/hannoeru/vite-plugin-pages
-      Pages({
-        extensions: ['vue', 'md'],
-      }),
-
       // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
       Layouts(),
 
@@ -97,11 +97,11 @@ export default defineConfig(async ({ mode }) => {
       AutoImport({
         imports: [
           'vue',
-          'vue-router',
           'vue-i18n',
           'vue/macros',
           '@vueuse/head',
           '@vueuse/core',
+          VueRouterAutoImports,
         ],
         dts: 'src/auto-imports.d.ts',
         dirs: ['src/composables/**/*', 'src/stores/**/*'],
