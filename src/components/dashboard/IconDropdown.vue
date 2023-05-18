@@ -3,13 +3,7 @@ import { AVAILABLE_ICONS } from '~/constants/avalilable-icons'
 
 const iconOptions = AVAILABLE_ICONS
 
-const props = defineProps<{
-  selectedIcon: string
-}>()
-
-const emit = defineEmits(['update:selectedIcon'])
-
-const selectedIcon = useVModel(props, 'selectedIcon', emit)
+const selectedIcon = defineModel<string>({ required: true })
 
 const selectIcon = (index: number) => {
   selectedIcon.value = iconOptions[index].iconClass

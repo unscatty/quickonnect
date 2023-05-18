@@ -7,20 +7,10 @@ import {
 const { t, locale } = useI18n()
 const { google, github } = useProviderLink()
 
-const props = defineProps({
-  isSignIn: {
-    type: Boolean,
-    required: false,
-    default: true,
-  },
-})
-
-const emit = defineEmits(['update:isSignIn'])
-
 /**
  * Change whether user wants to sign up or sign in
  */
-const isSignIn = useVModel(props, 'isSignIn', emit)
+const isSignIn = defineModel<boolean>('isSignIn', { local: true, default: true})
 
 const actionMessage = computed<Parameters<typeof t>[0]>(() =>
   isSignIn.value ? 'auth.sign-in-message' : 'auth.sign-up-message'

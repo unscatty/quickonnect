@@ -1,9 +1,5 @@
-<script setup lang="ts">
-const isSignIn = ref(true)
-</script>
-
 <template>
-  <SignUpSignIn v-model:is-sign-in="isSignIn" />
+  <SignUpSignIn />
 </template>
 
 <route lang="yaml">

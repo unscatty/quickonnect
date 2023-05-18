@@ -35,8 +35,13 @@ export const useQrScanner = (elementId: string) => {
   }
 
   const getActiveCamera = () => {
-    const currentCameraId =
-      qrCodeScanner?.getRunningTrackCapabilities()?.deviceId
+    let currentCameraId: string | undefined
+
+    try {
+      currentCameraId = qrCodeScanner?.getRunningTrackCapabilities()?.deviceId
+    } catch (e) {
+      return
+    }
 
     return availableCameras.value.find(
       (camera) => camera.id === currentCameraId

@@ -23,17 +23,13 @@ const {
   hasAvailableCameras,
 } = useQrScanner('qr-code-full-region')
 
-const props = withDefaults(
-  defineProps<Html5QrcodeCameraScanConfig & { isOpen?: boolean }>(),
-  {
-    fps: 5,
-    isOpen: false,
-  }
-)
+const props = withDefaults(defineProps<Html5QrcodeCameraScanConfig>(), {
+  fps: 5,
+})
 
-const emit = defineEmits(['scanSuccess', 'update:isOpen'])
+const emit = defineEmits(['scanSuccess'])
 
-const isOpen = useVModel(props, 'isOpen', emit)
+const isOpen = defineModel<boolean>('isOpen', { required: true })
 
 const qrResult = ref<Html5QrcodeResult | undefined>()
 
@@ -214,9 +210,9 @@ onUnmounted(async () => {
                                 :key="camera.id"
                                 v-slot="{ active }"
                                 as="button"
+                                class="w-full"
                                 @click="switchCamera(camera)"
                               >
-                                <!-- :href="item.href" -->
                                 <p
                                   :class="[
                                     active

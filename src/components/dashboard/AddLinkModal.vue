@@ -7,17 +7,7 @@ import gqlClient from '~/services/graphql-client'
 
 const queryClient = useQueryClient()
 
-const props = defineProps({
-  isOpen: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
-})
-
-const emit = defineEmits(['update:isOpen'])
-
-const isOpen = useVModel(props, 'isOpen', emit)
+const isOpen = defineModel<boolean>('isOpen', { required: true })
 
 type LinkFormData = {
   name: string
@@ -189,7 +179,7 @@ const addNewLink = async () => {
                     Icon
                   </label>
                   <div class="mt-1 sm:mt-0 sm:col-span-2">
-                    <IconDropdown $selected-icon="insertLinkForm.type" />
+                    <IconDropdown v-model="insertLinkForm.type" />
                   </div>
                 </div>
                 <div class="flex justify-end gap-4">
