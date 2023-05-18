@@ -88,6 +88,10 @@ export default defineConfig(async ({ mode }) => {
                 ],
               },
             },
+            script: {
+              defineModel: true,
+              propsDestructure: true,
+            }
           }),
         },
         betterDefine: false,
