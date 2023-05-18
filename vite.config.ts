@@ -24,6 +24,7 @@ import {
   printSchemaToFile,
 } from './vite/utils/get-graphl-schema'
 import VueRouter from 'unplugin-vue-router/vite'
+import VueDevTools from 'vite-plugin-vue-devtools'
 
 export default defineConfig(async ({ mode }) => {
   // Fetch schema from endpoint to a file
@@ -66,6 +67,8 @@ export default defineConfig(async ({ mode }) => {
 
     plugins: [
       // Preview(),
+      VueDevTools(),
+
       VueRouter({
         dataFetching: true,
         extensions: ['.vue', '.md'],
